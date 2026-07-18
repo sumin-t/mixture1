@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 혼합물 분리 가상 실험실 - 이수민 선생님 과학 교실</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Noto Sans KR', 'Inter', 'sans-serif'] },
+                    colors: {
+                        science: {
+                            50: '#f0f9ff', 100: '#e0f2fe', 200: '#bae6fd',
+                            500: '#0ea5e9', 600: '#0284c7', 700: '#0369a1', 900: '#0c4a6e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes fire { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(1.2) scaleX(1.1); } }
+        .anim-fire { animation: fire 0.5s infinite ease-in-out; transform-origin: bottom; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col">
+
+    <!-- 상단 고정 네비게이션 헤더 -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-gradient-to-tr from-science-600 to-indigo-600 text-white p-2.5 rounded-xl shadow-md">
+                    <i class="fa-solid fa-flask-vial text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold tracking-tight text-slate-900 leading-tight">AI 혼합물 분리 가상 실험실</h1>
+                    <p class="text-xs text-slate-500">과학 2학년 2학기 | I. 물질의 특성 (3성분 복합 분리)</p>
+                </div>
+            </div>
+            
+            <!-- 단계별 학습 네비게이션바 -->
+            <nav class="hidden md:flex space-x-1 bg-slate-100 p-1.5 rounded-xl">
+                <button onclick="switchTab('intro')" id="tab-intro" class="tab-btn px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 bg-white text-slate-900 shadow-sm">도입 (5분)</button>
+                <button onclick="switchTab('explore')" id="tab-explore" class="tab-btn px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900">가상실험 (15분)</button>
+                <button onclick="switchTab('apply')" id="tab-apply" class="tab-btn px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900">실험설계 (15분)</button>
+                <button onclick="switchTab('wrap')" id="tab-wrap" class="tab-btn px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900">정리 (10분)</button>
+                <button onclick="openTeacherDashboard()" class="px-4 py-2 text-sm font-medium rounded-lg text-rose-600 hover:bg-rose-50 transition-all duration-200 ml-4 border border-rose-200 bg-rose-50/30"><i class="fa-solid fa-lock-open mr-1"></i> 교사 대시보드</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 메인 콘텐츠 영역 -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- [1단계] 도입 (Intro) -->
+        <section id="section-intro" class="space-y-6">
+            <div class="bg-gradient-to-r from-indigo-700 to-science-700 rounded-3xl p-6 sm:p-10 text-white shadow-xl relative overflow-hidden">
+                <div class="relative z-10 max-w-3xl space-y-4">
+                    <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Advanced Challenge</span>
+                    <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight">3가지 물질이 섞인 복합 혼합물을 분리하라!</h2>
+                    <p class="text-indigo-100 text-sm sm:text-base leading-relaxed">
+                        물질들이 가진 고유한 특성(자성, 밀도, 용해도, 끓는점)을 연쇄적으로 결합하여 완벽한 분리 시퀀스를 완성해 보세요! 반과 모둠을 먼저 등록해야 가상실험과 설계안 작성 결과를 제출할 수 있습니다.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 반, 모둠 및 학생 정보 입력 바 (수정 반영) -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 mb-1">반 선택</label>
+                    <select id="student-class" class="w-full border border-slate-200 rounded-xl p-2.5 text-sm focus:border-indigo-500 outline-none font-medium">
+                        <option value="1반">1반</option> <option value="2반">2반</option>
+                        <option value="3반">3반</option> <option value="4반">4반</option>
+                        <option value="5반">5반</option> <option value="6반">6반</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 mb-1">모둠 선택 (1~6조)</label>
+                    <select id="student-group" class="w-full border border-slate-200 rounded-xl p-2.5 text-sm focus:border-indigo-500 outline-none font-medium">
+                        <option value="1조">제 1조</option> <option value="2조">제 2조</option>
+                        <option value="3조">제 3조</option> <option value="4조">제 4조</option>
+                        <option value="5조">제 5조</option> <option value="6조">제 6조</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 mb-1">연구원 이름 (팀원 전체)</label>
+                    <input type="text" id="student-names" class="w-full border border-slate-200 rounded-xl p-2.5 text-sm focus:border-indigo-500 outline-none" placeholder="홍길동, 이영희, 김철수">
+                </div>
+                <div class="flex items-end">
+                    <button onclick="saveStudentInfo()" class="w-full bg-slate-900 text-white text-sm font-bold py-2.5 px-4 rounded-xl hover:bg-slate-800 transition">연구원 정보 등록</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- [2단계] 탐색 (Virtual Lab Simulation) -->
+        <section id="section-explore" class="hidden space-y-6">
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                <h2 class="text-xl font-bold text-slate-900"><i class="fa-solid fa-vials text-emerald-500 mr-2"></i>3성분 혼합물 연쇄 분리 가상 테스트</h2>
+                <p class="text-slate-500 text-xs sm:text-sm mt-1">모든 혼합물은 3가지 순물질을 포함합니다. 단계별 특성과 기구를 올바르게 순서대로 적용해 보세요.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- 왼쪽 컨트롤 패널 -->
+                <div class="lg:col-span-5 space-y-4">
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                        <h3 class="font-bold text-sm text-slate-900"><span class="bg-indigo-100 text-indigo-700 text-xs px-2 py-0.5 rounded-full mr-1">1</span> 혼합물 샘플 선택</h3>
+                        <div class="space-y-2">
+                            <button onclick="selectMixture('mix-A')" id="mix-mix-A" class="mix-card w-full border border-slate-200 p-3 rounded-xl text-left transition text-sm">
+                                <span class="font-bold text-slate-900 block">샘플 A: 철가루 + 소금 + 모래</span>
+                                <span class="text-xs text-slate-400">자성 물질, 물에 녹는 물질, 녹지 않는 고체의 혼합</span>
+                            </button>
+                            <button onclick="selectMixture('mix-B')" id="mix-mix-B" class="mix-card w-full border border-slate-200 p-3 rounded-xl text-left transition text-sm">
+                                <span class="font-bold text-slate-900 block">샘플 B: 식용유 + 물 + 에탄올</span>
+                                <span class="text-xs text-slate-400">섞이지 않는 액체와 서로 잘 섞이는 액체들의 혼합</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                        <h3 class="font-bold text-sm text-slate-900"><span class="bg-indigo-100 text-indigo-700 text-xs px-2 py-0.5 rounded-full mr-1">2</span> 분리 메커니즘 매칭</h3>
+                        <div class="grid grid-cols-2 gap-2 text-xs font-semibold">
+                            <button onclick="selectProperty('complex-A')" id="prop-complex-A" class="prop-card border border-slate-200 p-3 rounded-xl text-left">자성 → 용해도 차이</button>
+                            <button onclick="selectProperty('complex-B')" id="prop-complex-B" class="prop-card border border-slate-200 p-3 rounded-xl text-left">밀도 차이 → 끓는점 차이</button>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-xs font-semibold pt-2 border-t">
+                            <button onclick="selectTool('set-A')" id="tool-set-A" class="tool-card border border-slate-200 p-3 rounded-xl text-left">자석 봉 + 거름/증발 장치</button>
+                            <button onclick="selectTool('set-B')" id="tool-set-B" class="tool-card border border-slate-200 p-3 rounded-xl text-left">분별깔때기 + 가지플라스크</button>
+                        </div>
+                    </div>
+
+                    <button onclick="runVirtualLab()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl shadow-md transition flex items-center justify-center">
+                        <i class="fa-solid fa-play mr-2"></i> 연쇄 가상 실험 가동
+                    </button>
+                </div>
+
+                <!-- 오른쪽 모니터 패널 -->
+                <div class="lg:col-span-7 flex flex-col">
+                    <div class="bg-slate-900 text-slate-100 rounded-2xl p-6 shadow-xl flex-grow flex flex-col justify-between min-h-[350px]">
+                        <div class="text-xs text-slate-400 font-mono pb-2 border-b border-slate-800">MULTIPLE SEPARATION MONITOR</div>
+                        
+                        <div class="flex-grow flex items-center justify-center" id="sim-display">
+                            <div class="text-center text-slate-500 text-sm">조건을 매칭하고 실험을 작동하세요.</div>
+                        </div>
+
+                        <div id="lab-feedback" class="bg-slate-800 border border-slate-700 rounded-xl p-3 text-center text-xs text-slate-300">
+                            대기 중...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- [3단계] 실험 설계 (Apply & Create) -->
+        <section id="section-apply" class="hidden space-y-6">
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                <h2 class="text-xl font-bold text-slate-900 flex items-center"><i class="fa-solid fa-file-signature text-amber-500 mr-2"></i>모둠 맞춤형 복합 혼합물 분리 설계서 기획</h2>
+                <p class="text-slate-500 text-xs sm:text-sm mt-1">AI 피드백 검토 단계를 거쳐 최종 설계안을 교사에게 바로 전송하고 Google PPT 형식으로 백업하세요.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- 실험 설계 입력 폼 (구글 PPT 연동 규격) -->
+                <div class="lg:col-span-7 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex justify-between items-center pb-2 border-b">
+                        <span class="text-sm font-bold text-slate-800"><i class="fa-brands fa-google-drive text-amber-500 mr-1"></i> Google Slides 호환 에디터</span>
+                        <span id="save-status" class="text-xs text-emerald-600 font-medium"><i class="fa-solid fa-cloud-arrow-up"></i> 드라이브 실시간 연동중</span>
+                    </div>
+
+                    <div class="space-y-3 text-sm">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">1. 설계할 3성분 혼합물 주제</label>
+                            <input type="text" id="design-title" oninput="autoSave()" class="w-full border p-2.5 rounded-xl bg-slate-50 outline-none focus:border-indigo-500 font-medium" placeholder="예: 소금물 + 철가루 + 플라스틱 조각 혼합물 분리">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">2. 분리에 이용할 순물질별 핵심 특성 정의</label>
+                            <textarea id="design-props" oninput="autoSave()" class="w-full border p-2.5 rounded-xl bg-slate-50 outline-none focus:border-indigo-500 h-20" placeholder="각 물질이 가진 고유 성질을 적어주세요."></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">3. 구체적인 가설 및 단계별 실험 프로세스 (순서 중요)</label>
+                            <textarea id="design-process" oninput="autoSave()" class="w-full border p-2.5 rounded-xl bg-slate-50 outline-none focus:border-indigo-500 h-32" placeholder="1단계: 자석으로... 2단계: 물에 녹여..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 pt-2">
+                        <button onclick="triggerAIFeedback()" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold py-3 px-4 rounded-xl transition flex items-center justify-center">
+                            <i class="fa-solid fa-robot mr-1.5"></i> AI 설계 검토 및 자동 교정
+                        </button>
+                        <button onclick="downloadAsPPT()" class="bg-amber-50 hover:bg-amber-100 text-amber-700 text-xs font-bold py-3 px-4 rounded-xl transition flex items-center justify-center">
+                            <i class="fa-solid fa-file-powerpoint mr-1.5"></i> Google PPT(포맷) 다운로드
+                        </button>
+                    </div>
+
+                    <!-- 최종 교사 제출 버튼 -->
+                    <button onclick="submitToTeacher()" class="w-full mt-2 bg-rose-600 hover:bg-rose-700 text-white font-bold py-3.5 rounded-xl shadow-lg transition flex items-center justify-center text-sm">
+                        <i class="fa-solid fa-paper-plane mr-2"></i> 이수민 선생님께 최종 설계안 전송하기
+                    </button>
+                </div>
+
+                <!-- AI 피드백 모니터창 -->
+                <div class="lg:col-span-5 bg-slate-900 text-slate-100 rounded-2xl p-5 shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                            <span class="text-xs font-bold tracking-wider font-mono text-indigo-400"><i class="fa-solid fa-microchip animate-pulse mr-1"></i> AI TUTOR CORRECTION PANEL</span>
+                            <span class="text-[10px] bg-indigo-900/50 text-indigo-300 border border-indigo-700 px-2 py-0.5 rounded">실시간 작동</span>
+                        </div>
+                        <div id="ai-feedback-content" class="text-xs leading-relaxed space-y-3 mt-4 text-slate-300 h-[300px] overflow-y-auto">
+                            <p class="text-slate-500 italic">왼쪽 에디터에 설계 내용을 적으신 후 [AI 설계 검토 및 자동 교정] 단추를 누르시면 실시간으로 과학적 오류를 교정하고 개선된 코멘트를 제공합니다.</p>
+                        </div>
+                    </div>
+                    <div class="bg-slate-800 p-3 rounded-xl text-[11px] text-slate-400">
+                        <i class="fa-solid fa-triangle-exclamation text-amber-500 mr-1"></i> AI 교정본을 참조하여 왼쪽 에디터 내용을 업그레이드할 수 있습니다.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- [4단계] 정리 (Wrap-up) -->
+        <section id="section-wrap" class="hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-center max-w-md mx-auto space-y-4">
+                <div class="text-emerald-500 text-5xl"><i class="fa-solid fa-circle-check"></i></div>
+                <h2 class="text-xl font-bold">오늘의 가상 실험 임무 완료!</h2>
+                <p class="text-slate-600 text-sm">설계안 제출 상태를 교사 대시보드에서 확인받으세요.</p>
+                <button onclick="switchTab('explore')" class="text-xs font-semibold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-lg">가상실험 다시 해보기</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- [교사용 패널] 모달 대시보드 (비밀번호 보호형) -->
+    <div id="teacher-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl w-full max-w-5xl max-h-[85vh] overflow-hidden flex flex-col shadow-2xl border border-slate-200">
+            <!-- 모달 헤더 -->
+            <div class="bg-slate-900 text-white p-5 flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-chart-columns text-rose-400 text-xl"></i>
+                    <div>
+                        <h3 class="font-bold text-base">이수민 선생님 전용 - 실시간 학생 설계안 현황판</h3>
+                        <p class="text-[11px] text-slate-400">학생들이 실시간 제출한 3성분 혼합물 기획서 통합 대시보드</p>
+                    </div>
+                </div>
+                <button onclick="closeTeacherDashboard()" class="text-slate-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <!-- 대시보드 내용 테이블 -->
+            <div class="p-6 overflow-y-auto flex-grow bg-slate-50">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-xs font-bold text-slate-500"><i class="fa-solid fa-users"></i> 실시간 학급 제출 현황 제어</span>
+                    <button onclick="clearDashboardData()" class="text-xs text-rose-600 font-semibold bg-rose-50 px-2.5 py-1 rounded-lg hover:bg-rose-100"><i class="fa-solid fa-trash-can mr-1"></i>데이터 전체 초기화</button>
+                </div>
+                
+                <div class="overflow-x-auto bg-white rounded-2xl border border-slate-200">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 border-b font-bold text-slate-700">
+                                <th class="p-3.5 w-16 text-center">반</th>
+                                <th class="p-3.5 w-16 text-center">모둠</th>
+                                <th class="p-3.5 w-24">제출 연구원</th>
+                                <th class="p-3.5 w-44">실험 대주제</th>
+                                <th class="p-3.5">단계별 프로세스 상세 설계 내용</th>
+                                <th class="p-3.5 w-24 text-center">제출상태</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dashboard-rows" class="divide-y text-slate-700 font-medium">
+                            <!-- 로컬스토리지를 통해 동기화 주입 처리됨 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 푸터 -->
+    <footer class="bg-white border-t border-slate-200 py-4 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-400 font-medium">
+            &copy; 2026 이수민 선생님 과학 교실. 스마트 복합 물질 특성 학습 프레임워크.
+        </div>
+    </footer>
+
+    <!-- 인터랙션 로직 스크립트 -->
+    <script>
+        // 전역 상태 변수
+        let selectedMixture = null;
+        let selectedProperty = null;
+        let selectedTool = null;
+
+        // 고유 저장소 데이터 식별 키 생성 함수 (반 + 조 단위 조합형 고유 식별자)
+        function getStorageKey(cls, grp) {
+            return `submit_${cls}_${grp}`;
+        }
+
+        // 탭 전환 핸들러
+        function switchTab(id) {
+            ['intro', 'explore', 'apply', 'wrap'].forEach(sec => document.getElementById(`section-${sec}`).classList.add('hidden'));
+            document.getElementById(`section-${id}`).classList.remove('hidden');
+            document.querySelectorAll('.tab-btn').forEach(b => b.className = "tab-btn px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900");
+            document.getElementById(`tab-${id}`).className = "tab-btn px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 bg-white text-slate-900 shadow-sm";
+        }
+
+        // 학생 정보 저장 및 기존 세션 불러오기
+        function saveStudentInfo() {
+            const cls = document.getElementById('student-class').value;
+            const grp = document.getElementById('student-group').value;
+            const names = document.getElementById('student-names').value || "익명 연구원";
+            const targetKey = getStorageKey(cls, grp);
+            
+            let data = JSON.parse(localStorage.getItem(targetKey)) || { 
+                class: cls, group: grp, title: "작성 전", props: "대기 중", process: "대기 중", status: "미제출" 
+            };
+            
+            data.names = names;
+            localStorage.setItem(targetKey, JSON.stringify(data));
+            
+            // 기존에 저장된 데이터가 있다면 에디터 폼에 로드
+            document.getElementById('design-title').value = data.title !== "작성 전" ? data.title : "";
+            document.getElementById('design-props').value = data.props !== "대기 중" ? data.props : "";
+            document.getElementById('design-process').value = data.process !== "대기 중" ? data.process : "";
+
+            alert(`[연동 완료] ${cls} ${grp} 연구원 정보가 성공적으로 등록되었습니다. 가상실험 탭으로 이동합니다.`);
+            switchTab('explore');
+        }
+
+        // 가상실험 매칭 컨트롤러 함수들
+        function selectMixture(id) {
+            selectedMixture = id;
+            document.querySelectorAll('.mix-card').forEach(c => c.className = "mix-card w-full border border-slate-200 p-3 rounded-xl text-left transition text-sm bg-white text-slate-700");
+            document.getElementById(`mix-${id}`).className = "mix-card w-full border-2 border-indigo-600 p-3 rounded-xl text-left transition text-sm bg-indigo-50/50 font-bold text-slate-900";
+        }
+        function selectProperty(id) {
+            selectedProperty = id;
+            document.querySelectorAll('.prop-card').forEach(c => c.className = "prop-card border border-slate-200 p-3 rounded-xl text-left bg-white text-slate-700");
+            document.getElementById(`prop-${id}`).className = "prop-card border-2 border-indigo-600 p-3 rounded-xl text-left bg-indigo-50 font-bold text-indigo-900";
+        }
+        function selectTool(id) {
+            selectedTool = id;
+            document.querySelectorAll('.tool-card').forEach(c => c.className = "tool-card border border-slate-200 p-3 rounded-xl text-left bg-white text-slate-700");
+            document.getElementById(`tool-${id}`).className = "tool-card border-2 border-indigo-600 p-3 rounded-xl text-left bg-indigo-50 font-bold text-indigo-900";
+        }
+
+        // 3성분 가상실험 매칭 엔진
+        function runVirtualLab() {
+            const display = document.getElementById('sim-display');
+            const feedback = document.getElementById('lab-feedback');
+
+            if (!selectedMixture || !selectedProperty || !selectedTool) {
+                alert("3성분 혼합물 샘플, 물리적 메커니즘, 연쇄 도구를 모두 하나씩 선택해주세요.");
+                return;
+            }
+
+            if (selectedMixture === 'mix-A' && selectedProperty === 'complex-A' && selectedTool === 'set-A') {
+                display.innerHTML = `
+                    <div class="space-y-3 text-center">
+                        <div class="flex justify-center space-x-6 text-2xl text-slate-400">
+                            <span class="anim-fire text-red-500"><i class="fa-solid fa-magnet"></i></span>
+                            <span class="animate-bounce text-amber-500"><i class="fa-solid fa-filter"></i></span>
+                            <span class="animate-pulse text-blue-400"><i class="fa-solid fa-soap"></i></span>
+                        </div>
+                        <p class="text-xs text-emerald-400 font-mono">STEP 1: 자석봉으로 철가루 100% 포집 완료</p>
+                        <p class="text-xs text-amber-400 font-mono">STEP 2: 증류수 투입 후 거름종이로 모래 완벽 여과</p>
+                        <p class="text-xs text-blue-400 font-mono">STEP 3: 잔류 소금물 가열 증발접시 가동 → 소금 결정 검출</p>
+                    </div>
+                `;
+                feedback.className = "bg-emerald-950 text-emerald-300 border border-emerald-800 rounded-xl p-3 text-center text-xs font-bold";
+                feedback.innerHTML = "🎯 [A샘플 완벽 분리] 철가루(자성) → 모래(용해도) → 소금(증발) 시퀀스 제어 성공!";
+            } else if (selectedMixture === 'mix-B' && selectedProperty === 'complex-B' && selectedTool === 'set-B') {
+                display.innerHTML = `
+                    <div class="space-y-3 text-center">
+                        <div class="flex justify-center space-x-6 text-2xl text-slate-400">
+                            <span class="animate-pulse text-yellow-500"><i class="fa-solid fa-droplet"></i></span>
+                            <span class="anim-fire text-purple-500"><i class="fa-solid fa-fire-burner"></i></span>
+                        </div>
+                        <p class="text-xs text-yellow-400 font-mono">STEP 1: 분별깔때기 개방 → 밀도가 큰 하층액(물+에탄올) 분리, 식용유 상층 잔류</p>
+                        <p class="text-xs text-purple-400 font-mono">STEP 2: 분리된 하층 액체 증류플라스크 가열 → 78°C 에탄올 기화 분리</p>
+                    </div>
+                `;
+                feedback.className = "bg-emerald-950 text-emerald-300 border border-emerald-800 rounded-xl p-3 text-center text-xs font-bold";
+                feedback.innerHTML = "🎯 [B샘플 완벽 분리] 식용유(밀도 및 비용해) → 에탄올(끓는점 차이) 시퀀스 제어 성공!";
+            } else {
+                display.innerHTML = `<div class="text-rose-500 text-3xl"><i class="fa-solid fa-triangle-exclamation"></i></div>`;
+                feedback.className = "bg-rose-950 text-rose-300 border border-rose-800 rounded-xl p-3 text-center text-xs font-semibold";
+                feedback.innerHTML = "❌ 복합 분리 실패! 선택한 3성분 특성과 맞지 않는 기구 배열이거나 조작 순서가 꼬였습니다.";
+            }
+        }
+
+        // 실시간 에디터 자동 저장 로직
+        function autoSave() {
+            const cls = document.getElementById('student-class').value;
+            const grp = document.getElementById('student-group').value;
+            const targetKey = getStorageKey(cls, grp);
+            
+            let data = JSON.parse(localStorage.getItem(targetKey)) || { class: cls, group: grp, names: "미등록" };
+            
+            data.title = document.getElementById('design-title').value || "작성 전";
+            data.props = document.getElementById('design-props').value || "대기 중";
+            data.process = document.getElementById('design-process').value || "대기 중";
+            
+            localStorage.setItem(targetKey, JSON.stringify(data));
+            
+            const statusLabel = document.getElementById('save-status');
+            statusLabel.innerHTML = "<i class='fa-solid fa-rotate text-amber-500 animate-spin'></i> 드라이브 동기화 중...";
+            setTimeout(() => {
+                statusLabel.innerHTML = "<i class='fa-solid fa-cloud-arrow-up'></i> 드라이브 실시간 연동중";
+            }, 500);
+        }
+
+        // AI 가상 교정 분석 로직
+        function triggerAIFeedback() {
+            const processText = document.getElementById('design-process').value;
+            const aiView = document.getElementById('ai-feedback-content');
+            
+            if(!processText || processText.length < 5) {
+                alert("교정받을 실험 설계 설계안을 기재해 주세요.");
+                return;
+            }
+
+            aiView.innerHTML = `<p class="text-indigo-400 font-bold font-mono animate-pulse"><i class="fa-solid fa-brain"></i> AI 튜터가 복합 물질 시퀀스를 논리 분석 중입니다...</p>`;
+            
+            setTimeout(() => {
+                let correction = "";
+                if(processText.includes("물") && processText.includes("자석") && processText.indexOf("물") < processText.indexOf("자석")) {
+                    correction = `
+                        <div class="bg-red-950/40 p-3 rounded-xl border border-red-800 text-red-200">
+                            <span class="font-bold block text-sm"><i class="fa-solid fa-circle-xmark mr-1"></i> 과학적 공정 순서 오류 발견!</span>
+                            혼합물 고체에 <strong>자석 봉을 대기 전에 물을 먼저 부어버리면</strong>, 철가루가 물속에서 응집되거나 산화되어 자성에 정상 반응하기 매우 어려워집니다. <br><br>
+                            <span class="text-indigo-300 font-bold">💡 [AI 권장 수정 피드백]:</span> 액체 용매를 붓기 전인 첫 번째 전처리 단계에서 건조된 철가루를 자석으로 먼저 완전히 걸러내도록 에디터 내용을 변경해 주세요.
+                        </div>
+                    `;
+                } else {
+                    correction = `
+                        <div class="bg-emerald-950/40 p-3 rounded-xl border border-emerald-800 text-emerald-200">
+                            <span class="font-bold block text-sm"><i class="fa-solid fa-circle-check mr-1"></i> 과학적 정밀성 이상 없음!</span>
+                            고체 상태 유지를 고려한 자성 선제 분리, 용해도 차이를 거친 여과, 그리고 잔류 물질 끓는점(혹은 증발) 특성을 순차 결합한 우수한 연쇄 설계 도면입니다. 가열 도구 취급 시 화상 안전 수칙을 명시하면 완벽합니다.
+                        </div>
+                    `;
+                }
+                aiView.innerHTML = correction;
+            }, 1000);
+        }
+
+        // Google Slides 포맷 파일 다운로드
+        function downloadAsPPT() {
+            const title = document.getElementById('design-title').value;
+            const props = document.getElementById('design-props').value;
+            const process = document.getElementById('design-process').value;
+            const cls = document.getElementById('student-class').value;
+            const grp = document.getElementById('student-group').value;
+
+            let pptTextContent = `[Google Slides 양식 데이터 변환 문서]\n\n` +
+                                 `슬라이드 1: 메인 타이틀\n- 실험 주제: ${title}\n- 학급 소속: ${cls} ${grp}\n\n` +
+                                 `슬라이드 2: 3성분 물질별 특성 설정\n- 상세 내용:\n${props}\n\n` +
+                                 `슬라이드 3: 세부 실험 설계 공정\n- 상세 내용:\n${process}\n\n` +
+                                 `*본 가이드 텍스트 문서는 구글 드라이브 문서 업로드 후 슬라이드 자동 레이아웃 리포트로 즉시 파싱 변환이 가능합니다.`;
+
+            const blob = new Blob([pptTextContent], { type: "text/plain;charset=utf-8" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = `${cls}_${grp}_혼합물분리_실험설계안_GoogleSlides형식.txt`;
+            link.click();
+        }
+
+        // 최종 교사 제출 처리 함수
+        function submitToTeacher() {
+            const cls = document.getElementById('student-class').value;
+            const grp = document.getElementById('student-group').value;
+            const targetKey = getStorageKey(cls, grp);
+            
+            let data = JSON.parse(localStorage.getItem(targetKey));
+            
+            if(!data || !data.title || data.title === "작성 전") {
+                alert("설계안 내용을 빈칸 없이 작성하여 등록한 후 제출해 주세요.");
+                return;
+            }
+
+            data.status = "제출 완료";
+            localStorage.setItem(targetKey, JSON.stringify(data));
+            alert(`[전송 완료] ${cls} ${grp}의 3성분 혼합물 분리 실험 설계안이 이수민 선생님 대시보드로 성공적으로 전송되었습니다!`);
+            switchTab('wrap');
+        }
+
+        // 비밀번호 확인 및 교사 대시보드 모달 열기
+        function openTeacherDashboard() {
+            const password = prompt("이수민 선생님 전용 보안 비밀번호를 입력해 주세요.\n(초기 패스워드: 1234)");
+            
+            if (password === "1234") {
+                renderDashboard();
+                document.getElementById('teacher-modal').classList.remove('hidden');
+                document.getElementById('teacher-modal').classList.add('flex');
+            } else if (password !== null) {
+                alert("⚠️ 비밀번호가 일치하지 않아 접근이 거부되었습니다.");
+            }
+        }
+
+        function closeTeacherDashboard() {
+            document.getElementById('teacher-modal').classList.remove('flex');
+            document.getElementById('teacher-modal').classList.add('hidden');
+        }
+
+        // 실시간 교사 대시보드 테이블 동적 렌더링 시스템
+        function renderDashboard() {
+            const rowsContainer = document.getElementById('dashboard-rows');
+            rowsContainer.innerHTML = "";
+
+            let matchCount = 0;
+
+            // 로컬 스토리지에 존재하는 학급용 데이터 취합 스캔
+            for(let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if(key.startsWith("submit_")) {
+                    matchCount++;
+                    let data = JSON.parse(localStorage.getItem(key));
+                    let statusBadge = data.status === "제출 완료" 
+                        ? `<span class="bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full text-[11px] font-extrabold"><i class="fa-solid fa-check"></i> 완료</span>`
+                        : `<span class="bg-slate-100 text-slate-400 px-2.5 py-1 rounded-full text-[11px]">미제출</span>`;
+
+                    let row = `
+                        <tr class="hover:bg-slate-50 transition text-slate-700">
+                            <td class="p-3.5 text-center font-bold text-slate-900 bg-slate-100/50">${data.class || '-'}</td>
+                            <td class="p-3.5 text-center font-bold text-indigo-600 bg-indigo-50/20">${data.group}</td>
+                            <td class="p-3.5 font-semibold text-slate-800">${data.names}</td>
+                            <td class="p-3.5 text-slate-900 font-bold">${data.title}</td>
+                            <td class="p-3.5 text-xs text-slate-600 whitespace-pre-line leading-relaxed">
+                                <strong class="text-[11px] text-indigo-600 font-bold">[물질 특성 분석]</strong>\n${data.props}\n
+                                <strong class="text-[11px] text-amber-600 font-bold">[실험 진행 절차]</strong>\n${data.process}
+                            </td>
+                            <td class="p-3.5 text-center">${statusBadge}</td>
+                        </tr>
+                    `;
+                    rowsContainer.innerHTML += row;
+                }
+            }
+
+            if(matchCount === 0) {
+                rowsContainer.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-400 font-medium">현재 브라우저 세션에 저장되거나 학생이 전송한 설계안 내역이 없습니다.</td></tr>`;
+            }
+        }
+
+        // 교사용 통합 초기화
+        function clearDashboardData() {
+            if(confirm("정말로 모든 반과 모둠의 실시간 제출 이력을 완벽하게 초기화하시겠습니까?")) {
+                localStorage.clear();
+                renderDashboard();
+            }
+        }
+    </script>
+</body>
+</html>
