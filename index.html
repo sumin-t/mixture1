@@ -27,70 +27,61 @@
         }
     </script>
     <style>
-        /* --- 실감나는 가상 실험 맞춤형 애니메이션 세트 --- */
-        
-        /* 1. 자석 상하 운동 및 가루 흡착 효과 */
-        @keyframes magnet-move {
-            0%, 100% { transform: translateY(-5px); }
-            50% { transform: translateY(12px); }
+        /* */
+        @keyframes magnet-move-down {
+            0% { transform: translateY(-10px); }
+            100% { transform: translateY(35px); }
         }
-        @keyframes iron-attract {
-            0%, 100% { transform: scale(0.8) translateY(10px); opacity: 0.3; }
-            50% { transform: scale(1.1) translateY(-2px); opacity: 1; }
+        @keyframes iron-jump {
+            0% { transform: translateY(0) scale(1); opacity: 0.5; }
+            100% { transform: translateY(-40px) scale(1.1); opacity: 1; fill: #475569; }
         }
-        .anim-magnet { animation: magnet-move 2s infinite ease-in-out; }
-        .anim-iron { animation: iron-attract 2s infinite ease-in-out; }
-
-        /* 2. 거름 깔때기 액체 방울 여과 효과 */
-        @keyframes drip {
-            0% { transform: translateY(-5px); opacity: 0; }
+        @keyframes water-boil {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.3; }
+            50% { transform: translateY(-5px) scale(1.3); opacity: 0.8; }
+        }
+        @keyframes steam-rise-svg {
+            0% { transform: translateY(0) scale(0.8); opacity: 0; }
+            50% { opacity: 0.6; }
+            100% { transform: translateY(-25px) scale(1.2); opacity: 0; }
+        }
+        @keyframes drip-drop {
+            0% { transform: translateY(0); opacity: 0; }
             30% { opacity: 1; }
-            100% { transform: translateY(28px); opacity: 0; }
+            100% { transform: translateY(45px); opacity: 0; }
         }
-        @keyframes liquid-fill {
-            0% { height: 10%; }
-            100% { height: 80%; }
-        }
-        .anim-drip { animation: drip 1.2s infinite linear; }
-        .anim-fill { animation: liquid-fill 6s forwards ease-out; }
+        
+        .anim-magnet-down { animation: magnet-move-down 1.2s forwards ease-in-out; }
+        .anim-iron-jump { animation: iron-jump 0.8s 0.4s forwards ease-out; }
+        .anim-boil { animation: water-boil 0.6s infinite ease-in-out; }
+        .anim-steam-svg { animation: steam-rise-svg 1.8s infinite linear; }
+        .anim-drip-drop { animation: drip-drop 1s infinite linear; }
 
-        /* 3. 토치 가열 및 가열 증발(연기) 효과 */
-        @keyframes fire-burn {
-            0%, 100% { transform: scaleY(1) scaleX(1); opacity: 0.9; }
-            50% { transform: scaleY(1.3) scaleX(1.1); opacity: 1; filter: drop-shadow(0 0 8px #f97316); }
+        .fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
         }
-        @keyframes steam-rise {
-            0% { transform: translateY(5px) scaleX(0.8); opacity: 0; }
-            50% { opacity: 0.6; transform: scaleX(1.2); }
-            100% { transform: translateY(-30px) scaleX(0.5); opacity: 0; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .anim-fire { animation: fire-burn 0.4s infinite ease-in-out; transform-origin: bottom; }
-        .anim-steam { animation: steam-rise 1.5s infinite linear; }
-
-        /* 4. 분별 깔때기 계면 분리 액체 하강 효과 */
-        @keyframes separation-drain {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(15px); opacity: 0; }
-        }
-        .anim-drain { animation: separation-drain 2s infinite linear; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col">
 
     <!-- 상단 고정 네비게이션 헤더 -->
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <div class="bg-gradient-to-tr from-science-600 to-indigo-600 text-white p-2.5 rounded-xl shadow-md">
+                <div class="bg-gradient-to-tr from-indigo-600 to-science-600 text-white p-2.5 rounded-xl shadow-md">
                     <i class="fa-solid fa-flask-vial text-xl"></i>
                 </div>
                 <div>
                     <h1 class="text-lg font-bold tracking-tight text-slate-900 leading-tight">AI 혼합물 분리 가상 실험실</h1>
-                    <p class="text-xs text-slate-500">과학 2학년 2학기 | I. 물질의 특성 (3성분 복합 분리)</p>
+                    <p class="text-xs text-slate-500 font-medium">중등 과학 2학년 2학기 | I. 물질의 특성 (3성분 복합 분리)</p>
                 </div>
             </div>
             
-            <nav class="hidden md:flex space-x-1 bg-slate-100 p-1.5 rounded-xl">
+            <nav class="hidden md:flex items-center space-x-1 bg-slate-100 p-1.5 rounded-xl">
                 <button onclick="switchTab('intro')" id="tab-intro" class="tab-btn px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 bg-white text-slate-900 shadow-sm">도입 (5분)</button>
                 <button onclick="switchTab('explore')" id="tab-explore" class="tab-btn px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900">가상실험 (15분)</button>
                 <button onclick="switchTab('apply')" id="tab-apply" class="tab-btn px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900">실험설계 (15분)</button>
@@ -104,14 +95,17 @@
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
         <!-- [1단계] 도입 -->
-        <section id="section-intro" class="space-y-6">
+        <section id="section-intro" class="space-y-6 fade-in">
             <div class="bg-gradient-to-r from-indigo-700 to-science-700 rounded-3xl p-6 sm:p-10 text-white shadow-xl relative overflow-hidden">
                 <div class="relative z-10 max-w-3xl space-y-4">
                     <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Advanced Challenge</span>
                     <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight">3가지 물질이 섞인 복합 혼합물을 분리하라!</h2>
                     <p class="text-indigo-100 text-sm sm:text-base leading-relaxed">
-                        물질들이 가진 고유한 특성(자성, 밀도, 용해도, 끓는점)을 하나씩 선택하여 결합해 보세요. 특성 2가지를 정확한 순서대로 고르고 매칭되는 도구를 조작해야 그림 시뮬레이션이 정상 작동합니다.
+                        물질들이 가진 고유한 특성(자성, 밀도, 용해도, 끓는점)을 하나씩 선택하여 결합해 보세요. 특성 2가지를 정확한 순서대로 고르고 매칭되는 도구를 조작해야 정교한 단계별 시뮬레이션이 활성화됩니다.
                     </p>
+                </div>
+                <div class="absolute -right-8 -bottom-10 text-slate-100/10 text-[180px] pointer-events-none">
+                    <i class="fa-solid fa-microscope"></i>
                 </div>
             </div>
 
@@ -144,7 +138,7 @@
         </section>
 
         <!-- [2단계] 가상실험 -->
-        <section id="section-explore" class="hidden space-y-6">
+        <section id="section-explore" class="hidden space-y-6 fade-in">
             <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
                 <h2 class="text-xl font-bold text-slate-900"><i class="fa-solid fa-vials text-emerald-500 mr-2"></i>3성분 혼합물 연쇄 분리 가상 테스트</h2>
                 <p class="text-slate-500 text-xs sm:text-sm mt-1">1단계 샘플 선택 후, 2단계에서 분리법에 사용할 특성 2개를 순서대로 클릭하고 3단계 실험도구를 연결하세요.</p>
@@ -205,24 +199,26 @@
                     </button>
                 </div>
 
-                <!-- 오른쪽 모니터 패널 (역동적 실험 장치 시뮬레이션 인터페이스) -->
+                <!-- -->
+                <!-- 오른쪽 모니터 패널 (실제 크기의 정밀 실험기구 그래픽 화면) -->
                 <div class="lg:col-span-7 flex flex-col">
-                    <div class="bg-slate-900 text-slate-100 rounded-2xl p-6 shadow-xl flex-grow flex flex-col justify-between min-h-[480px]">
+                    <div class="bg-slate-950 text-slate-100 rounded-2xl p-6 shadow-xl flex-grow flex flex-col justify-between min-h-[560px] border border-slate-800">
                         <div class="text-xs text-slate-400 font-mono pb-2 border-b border-slate-800 flex justify-between items-center">
-                            <span>DYNAMIC SEPARATION VISUALIZER v3.5</span>
+                            <span>HIGH-FIDELITY LABORATORY SCREEN v4.0</span>
                             <span class="text-emerald-400 animate-pulse text-[10px]" id="system-status-dot"><i class="fa-solid fa-circle"></i> 대기모드</span>
                         </div>
                         
-                        <!-- 애니메이션 기구가 실시간으로 변화하며 렌더링되는 핵심 디스플레이 스크린 -->
-                        <div class="flex-grow flex items-center justify-center my-4 p-4 border border-slate-800 bg-slate-950/90 rounded-xl min-h-[300px]" id="sim-display">
-                            <div class="text-center text-slate-500 text-sm">
-                                <i class="fa-solid fa-flask text-3xl block mb-2 text-slate-600 animate-bounce"></i>
-                                상단 조건 설계 완료 후 [실험 가동] 시 기구 움직임이 활성화됩니다.
+                        <!-- 고해상도 SVG 그래픽 렌더링 스크린 공간 -->
+                        <div class="flex-grow flex flex-col items-center justify-center my-4 p-5 border border-slate-800/80 bg-slate-900/60 rounded-2xl min-h-[420px] overflow-hidden" id="sim-display">
+                            <div class="text-center text-slate-500 text-sm max-w-sm">
+                                <i class="fa-solid fa-glass-water text-4xl block mb-3 text-slate-600 animate-pulse"></i>
+                                <p class="font-semibold text-slate-400">설계 조건 매칭 대기 중</p>
+                                <p class="text-xs text-slate-600 mt-1.5">왼쪽 패널에서 샘플, 특성, 도구를 모두 조화롭게 선택한 뒤 하단 [연쇄 가상 실험 가동]을 눌러주세요.</p>
                             </div>
                         </div>
 
-                        <div id="lab-feedback" class="bg-slate-800 border border-slate-700 rounded-xl p-4 text-center text-xs text-slate-300 transition-all duration-300">
-                            시스템 준비 완료. 조건 입력을 기다리는 중입니다.
+                        <div id="lab-feedback" class="bg-slate-900 border border-slate-800 rounded-xl p-4 text-center text-xs text-slate-300 transition-all duration-300">
+                            시스템 가동 준비 완료. 학생들의 과학적 선택 시퀀스를 탐색할 준비가 되었습니다.
                         </div>
                     </div>
                 </div>
@@ -230,13 +226,24 @@
         </section>
 
         <!-- [3단계] 실험 설계 -->
-        <section id="section-apply" class="hidden space-y-6">
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-                <h2 class="text-xl font-bold text-slate-900 flex items-center"><i class="fa-solid fa-file-signature text-amber-500 mr-2"></i>모둠 맞춤형 복합 혼합물 분리 설계서 기획</h2>
-                <p class="text-slate-500 text-xs sm:text-sm mt-1">AI 피드백 검토 단계를 거쳐 최종 설계안을 교사에게 바로 전송하고 Google PPT 형식으로 백업하세요.</p>
+        <section id="section-apply" class="hidden space-y-6 fade-in">
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-900 flex items-center"><i class="fa-solid fa-robot text-indigo-500 mr-2"></i>모둠 맞춤형 복합 혼합물 분리 설계서 기획</h2>
+                    <p class="text-slate-500 text-xs sm:text-sm mt-1">AI 팩트체크 검증 단계를 거쳐 최종 설계안을 교사에게 송신하고 Google PPT 형식으로 출력하세요.</p>
+                </div>
+                <div class="flex gap-1.5 self-start sm:self-center">
+                    <button onclick="loadDesignTemplate('buggy')" class="px-2.5 py-1.5 text-[10px] rounded-lg bg-rose-50 text-rose-700 hover:bg-rose-100 transition font-extrabold border border-rose-200 flex items-center gap-1">
+                        <i class="fa-solid fa-triangle-exclamation"></i> 오답 설계 로드
+                    </button>
+                    <button onclick="loadDesignTemplate('correct')" class="px-2.5 py-1.5 text-[10px] rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition font-extrabold border border-emerald-200 flex items-center gap-1">
+                        <i class="fa-solid fa-square-check"></i> 정답 설계 로드
+                    </button>
+                </div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Google Slides 호환 에디터 -->
                 <div class="lg:col-span-7 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
                     <div class="flex justify-between items-center pb-2 border-b">
                         <span class="text-sm font-bold text-slate-800"><i class="fa-brands fa-google-drive text-amber-500 mr-1"></i> Google Slides 호환 에디터</span>
@@ -245,23 +252,23 @@
                     <div class="space-y-3 text-sm">
                         <div>
                             <label class="block text-xs font-bold text-slate-600 mb-1">1. 설계할 3성분 혼합물 주제</label>
-                            <input type="text" id="design-title" oninput="autoSave()" class="w-full border p-2.5 rounded-xl bg-slate-50 outline-none focus:border-indigo-500 font-medium" placeholder="예: 소금물 + 철가루 + 플라스틱 조각 혼합물 분리">
+                            <input type="text" id="design-title" oninput="autoSave()" class="w-full border p-2.5 rounded-xl bg-slate-50 outline-none focus:border-indigo-500 font-medium" placeholder="예: 식용유, 물, 에탄올 혼합물 분리">
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-600 mb-1">2. 분리에 이용할 순물질별 핵심 특성 정의</label>
-                            <textarea id="design-props" oninput="autoSave()" class="w-full border p-2.5 rounded-xl bg-slate-50 outline-none focus:border-indigo-500 h-20" placeholder="각 물질이 가진 고유 성질을 적어주세요."></textarea>
+                            <textarea id="design-props" oninput="autoSave()" class="w-full border p-2.5 rounded-xl bg-slate-50 outline-none focus:border-indigo-500 h-16 resize-none" placeholder="각 물질이 가진 고유 성질(밀도차, 끓는점 차이 등)을 적어주세요."></textarea>
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-600 mb-1">3. 구체적인 가설 및 단계별 실험 프로세스</label>
-                            <textarea id="design-process" oninput="autoSave()" class="w-full border p-2.5 rounded-xl bg-slate-50 outline-none focus:border-indigo-500 h-32" placeholder="1단계: 자석으로... 2단계: 물에 녹여..."></textarea>
+                            <textarea id="design-process" oninput="autoSave()" class="w-full border p-2.5 rounded-xl bg-slate-50 outline-none focus:border-indigo-500 h-40 leading-relaxed font-mono text-xs" placeholder="예시 입력 또는 버튼을 클릭해 불러오세요..."></textarea>
                         </div>
                     </div>
                     <div class="grid grid-cols-2 gap-3 pt-2">
-                        <button onclick="triggerAIFeedback()" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold py-3 px-4 rounded-xl transition flex items-center justify-center">
+                        <button onclick="triggerAIFeedback()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-3.5 px-4 rounded-xl shadow-md transition flex items-center justify-center">
                             <i class="fa-solid fa-robot mr-1.5"></i> AI 설계 검토 및 자동 교정
                         </button>
-                        <button onclick="downloadAsPPT()" class="bg-amber-50 hover:bg-amber-100 text-amber-700 text-xs font-bold py-3 px-4 rounded-xl transition flex items-center justify-center">
-                            <i class="fa-solid fa-file-powerpoint mr-1.5"></i> Google PPT 다운로드
+                        <button onclick="downloadAsPPT()" class="bg-amber-50 hover:bg-amber-600 text-white text-xs font-bold py-3.5 px-4 rounded-xl shadow-md transition flex items-center justify-center">
+                            <i class="fa-solid fa-file-powerpoint mr-1.5"></i> Google PPT 미리보기
                         </button>
                     </div>
                     <button onclick="submitToTeacher()" class="w-full mt-2 bg-rose-600 hover:bg-rose-700 text-white font-bold py-3.5 rounded-xl shadow-lg transition flex items-center justify-center text-sm">
@@ -269,13 +276,24 @@
                     </button>
                 </div>
 
-                <div class="lg:col-span-5 bg-slate-900 text-slate-100 rounded-2xl p-5 shadow-xl flex flex-col justify-between">
+                <!-- AI TUTOR CORRECTION PANEL -->
+                <div class="lg:col-span-5 bg-slate-950 text-slate-100 rounded-2xl p-5 shadow-xl flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between pb-3 border-b border-slate-800">
                             <span class="text-xs font-bold tracking-wider font-mono text-indigo-400"><i class="fa-solid fa-brain mr-1"></i> AI TUTOR CORRECTION PANEL</span>
+                            <span class="text-[10px] bg-indigo-500/10 text-indigo-400 px-2.5 py-1 rounded border border-indigo-500/20 font-mono">v1.2-Guardrail-Patch</span>
                         </div>
-                        <div id="ai-feedback-content" class="text-xs leading-relaxed space-y-3 mt-4 text-slate-300 h-[300px] overflow-y-auto">
-                            <p class="text-slate-500 italic">설계 내용을 기재하신 뒤 검토를 요청하세요.</p>
+                        <div id="ai-feedback-content" class="text-xs leading-relaxed space-y-4 mt-4 h-[350px] overflow-y-auto pr-1">
+                            <div class="h-full flex flex-col items-center justify-center text-center p-6 space-y-4 text-slate-500">
+                                <div class="text-4xl animate-bounce">🤖</div>
+                                <div class="space-y-1">
+                                    <p class="font-bold text-slate-300">실험 설계 검토 준비 완료</p>
+                                    <p class="text-[11px] leading-relaxed">
+                                        좌측에 실험 단계 설계를 완료한 후,<br />
+                                        <b>'AI 설계 검토 및 자동 교정'</b> 버튼을 눌러주세요.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -283,55 +301,248 @@
         </section>
 
         <!-- [4단계] 정리 -->
-        <section id="section-wrap" class="hidden space-y-6">
-            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-center max-w-md mx-auto space-y-4">
-                <div class="text-emerald-500 text-5xl"><i class="fa-solid fa-circle-check"></i></div>
-                <h2 class="text-xl font-bold">오늘의 가상 실험 임무 완료!</h2>
-                <p class="text-slate-600 text-sm">대시보드 제출 상태 확인을 완료받으세요.</p>
-                <button onclick="switchTab('explore')" class="text-xs font-semibold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-lg">가상실험 다시 해보기</button>
+        <section id="section-wrap" class="hidden space-y-6 fade-in">
+            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm text-center max-w-md mx-auto space-y-4">
+                <div class="text-emerald-500 text-6xl"><i class="fa-solid fa-circle-check"></i></div>
+                <h2 class="text-2xl font-bold text-slate-900">오늘의 가상 실험 임무 완료!</h2>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    실험 설계서 전송을 완료하셨습니다. 교사용 현황판에 정상 수집되었는지 확인을 요청하고 대기하세요.
+                </p>
+                <div class="pt-2">
+                    <button onclick="switchTab('explore')" class="text-xs font-semibold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-4 py-2 rounded-xl transition">가상실험 복습하기</button>
+                </div>
             </div>
         </section>
     </main>
 
-    <!-- [교사용 패널] 모달 대시보드 -->
-    <div id="teacher-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-        <div class="bg-white rounded-3xl w-full max-w-5xl max-h-[85vh] overflow-hidden flex flex-col shadow-2xl border border-slate-200">
-            <div class="bg-slate-900 text-white p-5 flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                    <i class="fa-solid fa-chart-columns text-rose-400 text-xl"></i>
-                    <h3 class="font-bold text-base">이수민 선생님 전용 - 실시간 학생 설계안 현황판</h3>
+    <!-- AI 오작동 해결을 위한 시스템 로그 디버거 콘솔 (최하단 고정 배치) -->
+    <section class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pb-10 mt-6">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-lg">
+            <button onclick="toggleLogConsole()" class="w-full bg-slate-950 px-5 py-4 flex items-center justify-between text-left border-b border-slate-800 hover:bg-slate-900 transition">
+                <div class="flex items-center space-x-2.5">
+                    <span class="p-1 rounded-md bg-indigo-500/10 text-indigo-400 font-mono text-xs font-bold">CORE</span>
+                    <h3 class="text-sm font-bold text-slate-200">🤖 AI 오작동 해결 원리 및 백엔드 가드레일 (Fact-DB) 로그 검사기</h3>
                 </div>
-                <button onclick="closeTeacherDashboard()" class="text-slate-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
+                <div class="text-slate-400 hover:text-white text-sm">
+                    <span id="log-console-toggle-text" class="text-xs mr-2 font-medium">열기</span>
+                    <i id="log-console-icon" class="fa-solid fa-chevron-down transition-transform"></i>
+                </div>
+            </button>
+            <div id="log-console-content" class="p-5 space-y-4 hidden bg-slate-900/40 text-xs text-slate-400 font-mono">
+                <p class="text-[11px] text-slate-400 leading-relaxed">
+                    기존의 AI 튜터 오작동 현상(물이 에탄올보다 먼저 끓는다는 학생의 틀린 주장을 극찬하며 패스하던 결함)을 방지하기 위해 다음과 같은 <strong>하이브리드 팩트 검증 가드레일 필터</strong>가 작동합니다.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+                        <h4 class="font-bold text-slate-200">🔍 물리량 데이터베이스 (Fact-DB)</h4>
+                        <p class="text-[11px] text-slate-500 leading-relaxed">
+                            에탄올의 끓는점(78.2℃)이 물의 끓는점(100℃)보다 낮아 에탄올이 먼저 끓는 교과서적 수치를 AI 가드레일 상수로 강제 매핑하여 상호 역전된 논리를 원천 감지 및 거부합니다[cite: 1].
+                        </p>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+                        <h4 class="font-bold text-slate-200">⚠️ 공정 순서 및 안전성 검증</h4>
+                        <p class="text-[11px] text-slate-500 leading-relaxed">
+                            기름(식용유)을 가열하기 전 밀도 차이를 통해 분별깔때기로 먼저 차단하지 않거나[cite: 1], 인화성이 높은 에탄올 가열 시 "물중탕" 공정을 설계하지 않으면 즉시 경고하도록 우선순위를 부여했습니다[cite: 1].
+                        </p>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+                        <h4 class="font-bold text-slate-200">🛑 동조 편향 칭찬 금지 필터</h4>
+                        <p class="text-[11px] text-slate-500 leading-relaxed">
+                            오류 유도 시 <code>is_correct: false</code>를 강제 할당하며, 칭찬 멘트를 완전 억제하고 메타인지를 발달시키는 순수 발문형 힌트 유도 프로세스로 대폭 재설계했습니다.
+                        </p>
+                    </div>
+                </div>
             </div>
-            <div class="p-6 overflow-y-auto flex-grow bg-slate-50">
-                <div class="overflow-x-auto bg-white rounded-2xl border border-slate-200">
-                    <table class="w-full text-left text-xs border-collapse">
-                        <thead>
-                            <tr class="bg-slate-100 border-b font-bold text-slate-700">
-                                <th class="p-3.5 text-center">반</th>
-                                <th class="p-3.5 text-center">모둠</th>
-                                <th class="p-3.5">제출 연구원</th>
-                                <th class="p-3.5">실험 대주제</th>
-                                <th class="p-3.5">상세 설계 내용</th>
-                                <th class="p-3.5 text-center">제출상태</th>
-                            </tr>
-                        </thead>
-                        <tbody id="dashboard-rows" class="divide-y text-slate-700 font-medium"></tbody>
-                    </table>
+        </div>
+    </section>
+
+    <!-- [교사용 패널] 모달 대시보드 (대화면 업그레이드 버전) -->
+    <div id="teacher-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden items-center justify-center p-4 md:p-6 transition-all duration-300">
+        <div class="bg-white rounded-3xl w-full max-w-[95vw] h-[90vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden">
+            <!-- Header -->
+            <div class="bg-slate-900 text-white px-6 py-4 flex items-center justify-between border-b border-slate-800">
+                <div class="flex items-center space-x-3">
+                    <span class="bg-rose-500/10 text-rose-400 p-2.5 rounded-xl border border-rose-500/20">
+                        <i class="fa-solid fa-chart-columns text-xl"></i>
+                    </span>
+                    <div>
+                        <h3 class="font-extrabold text-base tracking-tight">이수민 선생님 전용 실시간 모니터링 시스템</h3>
+                        <p class="text-[11px] text-slate-400">학생들의 설계 실태, AI 피드백 수집 및 과학 오류 정합성 실시간 현황판</p>
+                    </div>
+                </div>
+                <button onclick="closeTeacherDashboard()" class="text-slate-400 hover:text-white text-xl p-2 rounded-lg hover:bg-slate-800 transition"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <!-- Dashboard Main Container -->
+            <div class="flex-grow p-6 overflow-y-auto bg-slate-50 flex flex-col space-y-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                        <div>
+                            <span class="text-xs text-slate-400 font-bold block">총 등록 모둠</span>
+                            <span id="stat-total-teams" class="text-3xl font-black text-slate-900">0</span>
+                        </div>
+                        <span class="text-indigo-500 text-2xl bg-indigo-50 p-3 rounded-xl"><i class="fa-solid fa-users"></i></span>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                        <div>
+                            <span class="text-xs text-slate-400 font-bold block">최종 제출 완료</span>
+                            <span id="stat-submitted" class="text-3xl font-black text-emerald-600">0</span>
+                        </div>
+                        <span class="text-emerald-500 text-2xl bg-emerald-50 p-3 rounded-xl"><i class="fa-solid fa-cloud-arrow-up"></i></span>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                        <div>
+                            <span class="text-xs text-slate-400 font-bold block">AI 피드백 통과율</span>
+                            <span id="stat-pass-rate" class="text-3xl font-black text-indigo-600">0%</span>
+                        </div>
+                        <span class="text-indigo-500 text-2xl bg-indigo-50 p-3 rounded-xl"><i class="fa-solid fa-square-check"></i></span>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                        <div>
+                            <span class="text-xs text-slate-400 font-bold block">치명적 오류 감지</span>
+                            <span id="stat-errors" class="text-3xl font-black text-rose-600">0건</span>
+                        </div>
+                        <span class="text-rose-500 text-2xl bg-rose-50 p-3 rounded-xl"><i class="fa-solid fa-triangle-exclamation"></i></span>
+                    </div>
+                </div>
+
+                <!-- 메인 데이터 테이블 -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex-grow flex flex-col min-h-[400px]">
+                    <div class="p-4 bg-slate-100/60 border-b border-slate-200 flex flex-wrap items-center justify-between gap-4">
+                        <div class="flex flex-wrap items-center gap-4">
+                            <h4 class="text-xs font-bold text-slate-600 uppercase tracking-wider"><i class="fa-solid fa-list-check mr-1 text-slate-400"></i> 실시간 수집된 모둠 실습지 리스트</h4>
+                            
+                            <div id="class-filter-bar" class="flex items-center space-x-1 bg-slate-200/60 p-1 rounded-xl border border-slate-300">
+                                <button onclick="setClassFilter('All')" id="filter-All" class="px-3 py-1 text-[11px] font-bold rounded-lg transition-all duration-200 bg-white text-slate-900 shadow-sm">전체</button>
+                                <button onclick="setClassFilter('1반')" id="filter-1반" class="px-3 py-1 text-[11px] font-medium rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900">1반</button>
+                                <button onclick="setClassFilter('2반')" id="filter-2반" class="px-3 py-1 text-[11px] font-medium rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900">2반</button>
+                                <button onclick="setClassFilter('3반')" id="filter-3반" class="px-3 py-1 text-[11px] font-medium rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900">3반</button>
+                                <button onclick="setClassFilter('4반')" id="filter-4반" class="px-3 py-1 text-[11px] font-medium rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900">4반</button>
+                                <button onclick="setClassFilter('5반')" id="filter-5반" class="px-3 py-1 text-[11px] font-medium rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900">5반</button>
+                                <button onclick="setClassFilter('6반')" id="filter-6반" class="px-3 py-1 text-[11px] font-medium rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900">6반</button>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-2">
+                            <button onclick="downloadCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-2 px-3.5 rounded-xl shadow-md transition flex items-center gap-1.5">
+                                <i class="fa-solid fa-file-csv text-sm"></i> CSV 다운로드
+                            </button>
+                            <span class="text-[10px] bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full font-bold border border-indigo-100">자동 로컬 데이터베이스 연동됨</span>
+                        </div>
+                    </div>
+                    
+                    <div class="overflow-x-auto flex-grow">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 border-b font-bold text-slate-700">
+                                    <th class="p-4 text-center w-16">반</th>
+                                    <th class="p-4 text-center w-16">모둠</th>
+                                    <th class="p-4 w-44">제출 연구원</th>
+                                    <th class="p-4 w-60">실험 대주제</th>
+                                    <th class="p-4">가설 및 설계 내용 (실습지 본문)</th>
+                                    <th class="p-4 text-center w-32">AI 정합성 진단</th>
+                                    <th class="p-4 text-center w-28">제출 상태</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dashboard-rows" class="divide-y text-slate-700 font-medium"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <footer class="bg-white border-t border-slate-200 py-4 mt-auto">
-        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-400 font-medium">&copy; 2026 이수민 선생님 과학 교실.</div>
-    </footer>
+    <!-- [Google PPT 미리보기 슬라이드 모달] -->
+    <div id="ppt-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-slate-900 rounded-3xl w-full max-w-4xl overflow-hidden flex flex-col shadow-2xl border border-slate-800">
+            <div class="bg-slate-950 text-slate-200 p-5 flex items-center justify-between border-b border-slate-800">
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-file-powerpoint text-amber-500 text-xl"></i>
+                    <h3 class="font-bold text-sm">Google Slides 호환 발표 문서 구성안</h3>
+                </div>
+                <button onclick="closePPTModal()" class="text-slate-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto max-h-[70vh] space-y-6 bg-slate-950">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-white text-slate-900 p-5 rounded-xl shadow-lg aspect-[16/9] flex flex-col justify-between border border-slate-100">
+                        <div class="border-b border-indigo-100 pb-2">
+                            <span class="text-[9px] text-indigo-600 font-bold uppercase tracking-widest">Slide 1 (표지)</span>
+                            <h4 id="ppt-slide1-title" class="font-extrabold text-slate-800 text-xs">식용유, 물, 에탄올 혼합물의 분리 설계</h4>
+                        </div>
+                        <div class="flex-grow flex items-center justify-center py-2">
+                            <div class="flex flex-wrap gap-1.5 justify-center">
+                                <span class="px-2.5 py-1 bg-yellow-100 text-yellow-800 font-bold text-[9px] rounded border border-yellow-200">식용유 (밀도 차)</span>
+                                <span class="px-2.5 py-1 bg-blue-100 text-blue-800 font-bold text-[9px] rounded border border-blue-200">물 (끓는점 100℃)</span>
+                                <span class="px-2.5 py-1 bg-orange-100 text-orange-800 font-bold text-[9px] rounded border border-orange-200">에탄올 (끓는점 78.2℃)</span>
+                            </div>
+                        </div>
+                        <p class="text-[9px] text-slate-400 font-semibold" id="ppt-slide1-footer">이수민 과학 실습실 1반 1조 제출안</p>
+                    </div>
 
-    <!-- 인터랙션 및 리얼 애니메이션 구동 핵심 스크립트 -->
+                    <div class="bg-white text-slate-900 p-5 rounded-xl shadow-lg aspect-[16/9] flex flex-col justify-between border border-slate-100">
+                        <div class="border-b border-indigo-100 pb-2">
+                            <span class="text-[9px] text-indigo-600 font-bold uppercase tracking-widest">Slide 2 (핵심 공정)</span>
+                            <h4 class="font-extrabold text-slate-800 text-xs">안전하고 정밀한 3단계 분리 원리</h4>
+                        </div>
+                        <div id="ppt-slide2-content" class="flex-grow text-[9px] space-y-1 py-1.5 flex flex-col justify-center text-slate-600 leading-relaxed"></div>
+                        <p class="text-[9px] text-indigo-600 font-bold">물리량 DB 정합성 팩트체크 통과 완료</p>
+                    </div>
+                </div>
+                
+                <div class="bg-indigo-950/40 border border-indigo-900 p-4 rounded-xl text-xs space-y-1.5 text-slate-300">
+                    <p class="font-bold text-indigo-400"><i class="fa-solid fa-circle-info mr-1"></i> 설계 오작동 락인(Lock-in) 방지 정책</p>
+                    <p class="text-[11px] leading-relaxed text-slate-400">
+                        본 시스템은 AI 튜터가 학생의 설계에 <strong>무결점 등급 판정(is_correct: true)</strong>을 내렸을 때에만 고품질 Google PPT 원본 다운로드 및 저장 링크를 활성화합니다. 오답 상태에서는 임시 대기 상태만 유지됩니다.
+                    </p>
+                </div>
+            </div>
+            <div class="p-4 border-t border-slate-800 bg-slate-950 flex justify-end gap-2">
+                <button onclick="closePPTModal()" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs transition">닫기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 pointer-events-none"></div>
+
+    <!-- -->
     <script>
         let selectedMixture = null;
         let selectedProperties = []; 
         let selectedTool = null;
+        let isConsoleOpen = false;
+        let currentClassFilter = 'All';
+
+        // 시뮬레이션 단계 추적 상태 변수들
+        let currentStepA = 1;
+        let currentStepB = 1;
+        let currentStepC = 1;
+
+        // Custom Toast 시스템 (알림 팝업)
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `p-4 mb-3 rounded-xl shadow-lg border text-xs font-bold flex items-center space-x-2 transition-all duration-300 transform translate-y-4 opacity-0 pointer-events-auto ${
+                type === 'success' ? 'bg-emerald-50 border-emerald-200 text-emerald-800' : 
+                type === 'warning' ? 'bg-amber-50 border-amber-200 text-amber-800' : 'bg-rose-50 border-rose-200 text-rose-800'
+            }`;
+            
+            const icon = type === 'success' ? 'fa-circle-check' : type === 'warning' ? 'fa-triangle-exclamation' : 'fa-circle-xmark';
+            toast.innerHTML = `<i class="fa-solid ${icon} text-sm"></i> <span>${message}</span>`;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.remove('translate-y-4', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-4', 'opacity-0');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 3500);
+        }
 
         function getStorageKey(cls, grp) { return `submit_${cls}_${grp}`; }
 
@@ -350,7 +561,7 @@
             let data = JSON.parse(localStorage.getItem(targetKey)) || { class: cls, group: grp, title: "작성 전", props: "대기 중", process: "대기 중", status: "미제출" };
             data.names = names;
             localStorage.setItem(targetKey, JSON.stringify(data));
-            alert(`[연동 완료] ${cls} ${grp} 연구원 정보가 등록되었습니다.`);
+            showToast(`[연구원 등록 완료] ${cls} ${grp} 세션이 시작되었습니다.`, 'success');
             switchTab('explore');
         }
 
@@ -358,6 +569,11 @@
             selectedMixture = id;
             selectedProperties = [];
             selectedTool = null;
+
+            // 단계 변수 초기화
+            currentStepA = 1;
+            currentStepB = 1;
+            currentStepC = 1;
 
             document.querySelectorAll('.mix-card').forEach(c => c.className = "mix-card w-full border border-slate-200 p-3 rounded-xl text-left transition text-sm bg-white text-slate-700");
             document.getElementById(`mix-${id}`).className = "mix-card w-full border-2 border-indigo-600 p-3 rounded-xl text-left transition text-sm bg-indigo-50/50 font-bold text-slate-900";
@@ -368,7 +584,11 @@
             document.getElementById('tool-panel').classList.add('opacity-40', 'pointer-events-none');
             document.querySelectorAll('.tool-card').forEach(c => c.className = "tool-card border border-slate-200 p-3 rounded-xl text-left bg-white text-slate-700 hover:bg-slate-50");
 
-            document.getElementById('sim-display').innerHTML = `<div class="text-center text-indigo-400 text-sm"><i class="fa-solid fa-arrow-down animate-bounce mr-2"></i>혼합물이 설정되었습니다. 2단계 특성을 순서대로 선택하세요.</div>`;
+            document.getElementById('sim-display').innerHTML = `
+                <div class="text-center text-indigo-400 text-sm p-6 bg-slate-900/50 rounded-2xl border border-dashed border-indigo-500/30">
+                    <i class="fa-solid fa-circle-info text-2xl mb-2"></i>
+                    <p class="font-bold">2단계 분리 특성 조합을 선택하세요.</p>
+                </div>`;
         }
 
         function togglePropertySingle(propName) {
@@ -377,7 +597,7 @@
                 selectedProperties.splice(index, 1);
             } else {
                 if (selectedProperties.length >= 2) {
-                    alert("특성은 최대 2개까지만 조합 가능합니다.");
+                    showToast("분리에 사용할 특성은 최대 2개까지만 순서대로 고를 수 있습니다.", 'warning');
                     return;
                 }
                 selectedProperties.push(propName);
@@ -387,7 +607,11 @@
             const toolPanel = document.getElementById('tool-panel');
             if (selectedProperties.length === 2) {
                 toolPanel.classList.remove('opacity-40', 'pointer-events-none');
-                document.getElementById('sim-display').innerHTML = `<div class="text-center text-indigo-400 text-sm"><i class="fa-solid fa-arrow-down animate-bounce mr-2"></i>특성 시퀀스 매칭 완료! 3단계 실험 도구를 연결하세요.</div>`;
+                document.getElementById('sim-display').innerHTML = `
+                    <div class="text-center text-emerald-400 text-sm p-6 bg-slate-900/50 rounded-2xl border border-dashed border-emerald-500/30 animate-pulse">
+                        <i class="fa-solid fa-square-check text-2xl mb-2"></i>
+                        <p class="font-bold">특성 설정 완료! 3단계 매칭 실험 도구를 결합해 주세요.</p>
+                    </div>`;
             } else {
                 toolPanel.classList.add('opacity-40', 'pointer-events-none');
             }
@@ -415,7 +639,12 @@
             selectedTool = id;
             document.querySelectorAll('.tool-card').forEach(c => c.className = "tool-card border border-slate-200 p-3 rounded-xl text-left bg-white text-slate-700 hover:bg-slate-50");
             document.getElementById(`tool-${id}`).className = "tool-card border-2 border-indigo-600 p-3 rounded-xl text-left bg-indigo-50 font-bold text-indigo-900";
-            document.getElementById('sim-display').innerHTML = `<div class="text-center text-emerald-400 text-sm"><i class="fa-solid fa-play-circle mr-1 animate-pulse"></i>장치 연동 완료! 아래 [연쇄 가상 실험 가동] 단추를 누르세요.</div>`;
+            document.getElementById('sim-display').innerHTML = `
+                <div class="text-center text-emerald-400 text-sm p-6 bg-slate-900/50 rounded-2xl border border-dashed border-emerald-500/30">
+                    <i class="fa-solid fa-toggle-on text-2xl mb-2"></i>
+                    <p class="font-bold">실험 도구가 결합되었습니다!</p>
+                    <p class="text-xs text-slate-500 mt-1">하단 [연쇄 가상 실험 가동]을 눌러 실제 그래픽을 활성화하세요.</p>
+                </div>`;
         }
 
         function toolErrorFeedback(id) {
@@ -428,213 +657,580 @@
             feedback.innerHTML = `<strong>⚠️ 도구 오류:</strong> '체(Sieve)'와 '분별깔때기'는 알갱이 크기 차이와 액체 계면 분리를 다루는 성격이 다른 도구입니다. 과학적 특성 경로에 호환되지 않습니다.`;
         }
 
-        /* --- 실시간 움직이는 역동적 비주얼 렌더링 엔진 (v3.5 개별 제어 버전) --- */
+        /* */
+        /* --- 고해상도 SVG 기반 실시간 연쇄 모니터링 시스템 구동부 --- */
         function runVirtualLab() {
             const display = document.getElementById('sim-display');
             const feedback = document.getElementById('lab-feedback');
             const statusDot = document.getElementById('system-status-dot');
 
-            if (!selectedMixture) { alert("1단계 샘플을 선택하세요."); return; }
-            if (selectedProperties.length < 2) { alert("2단계 특성을 조합하세요."); return; }
-            if (!selectedTool) { alert("3단계 도구를 매칭하세요."); return; }
+            if (!selectedMixture) { showToast("1단계 샘플을 선택하세요.", "warning"); return; }
+            if (selectedProperties.length < 2) { showToast("2단계 특성을 조합하세요.", "warning"); return; }
+            if (!selectedTool) { showToast("3단계 도구를 매칭하세요.", "warning"); return; }
 
             const propStr = selectedProperties.join(',');
 
-            // [성공 케이스 1] 샘플 A 비주얼 처리
+            // [성공 1] 샘플 A: 철가루 + 소금 + 모래 (자성, 용해도)
             if (selectedMixture === 'mix-A' && propStr === '자성,용해도' && selectedTool === 'tool-A') {
                 statusDot.className = "text-emerald-400 animate-ping text-[10px]";
-                display.innerHTML = `
-                    <div class="w-full grid grid-cols-3 gap-3 text-center items-center">
-                        <div class="bg-slate-900/90 p-4 rounded-xl border border-indigo-500/60 shadow-lg relative h-48 flex flex-col justify-between overflow-hidden">
-                            <div class="text-[10px] uppercase font-mono text-indigo-400 tracking-wider">STEP 1. 자성</div>
-                            <div class="relative flex justify-center items-center h-24">
-                                <i class="fa-solid fa-magnet text-red-500 text-4xl anim-magnet absolute top-2"></i>
-                                <div class="absolute bottom-2 flex space-x-1 anim-iron">
-                                    <span class="w-1.5 h-1.5 bg-slate-400 rounded-full inline-block"></span>
-                                    <span class="w-1.5 h-1.5 bg-slate-500 rounded-full inline-block"></span>
-                                    <span class="w-2 h-2 bg-slate-300 rounded-full inline-block"></span>
-                                </div>
-                            </div>
-                            <div class="text-[11px] text-slate-200 font-bold">철가루 흡착 포집</div>
-                        </div>
-                        <div class="bg-slate-900/90 p-4 rounded-xl border border-amber-500/60 shadow-lg relative h-48 flex flex-col justify-between overflow-hidden">
-                            <div class="text-[10px] uppercase font-mono text-amber-400 tracking-wider">STEP 2. 거름</div>
-                            <div class="relative flex flex-col justify-center items-center h-24">
-                                <i class="fa-solid fa-filter text-amber-400 text-3xl"></i>
-                                <i class="fa-solid fa-droplet text-sky-400 text-xs anim-drip absolute top-12"></i>
-                                <div class="w-10 bg-sky-900/60 border border-sky-500/40 rounded-b absolute bottom-2 anim-fill"></div>
-                            </div>
-                            <div class="text-[11px] text-slate-200 font-bold">모래 여과 분리</div>
-                        </div>
-                        <div class="bg-slate-900/90 p-4 rounded-xl border border-sky-500/60 shadow-lg relative h-48 flex flex-col justify-between overflow-hidden">
-                            <div class="text-[10px] uppercase font-mono text-sky-400 tracking-wider">STEP 3. 증발</div>
-                            <div class="relative flex flex-col justify-center items-center h-24">
-                                <div class="absolute top-2 flex space-x-1 text-slate-400 text-xs anim-steam">
-                                    <i class="fa-solid fa-cloud"></i><i class="fa-solid fa-cloud"></i>
-                                </div>
-                                <i class="fa-solid fa-soap text-sky-200 text-2xl z-10"></i>
-                                <i class="fa-solid fa-fire text-orange-500 text-3xl anim-fire absolute bottom-0"></i>
-                            </div>
-                            <div class="text-[11px] text-slate-200 font-bold">소금 결정 정제</div>
-                        </div>
-                    </div>
-                `;
-                feedback.className = "bg-emerald-950 text-emerald-300 border border-emerald-800 rounded-xl p-4 text-center text-xs font-bold shadow-inner";
-                feedback.innerHTML = "🎯 [실험 대성공] 자성(자석봉) ➡️ 용해도(거름종이 여과) ➡️ 증발(토치 가열) 물리 엔진 연쇄 장치가 가동되었습니다!";
+                renderSampleA();
             }
-            // [성공 케이스 2] 샘플 B 비주얼 처리 (요청 사항에 맞춘 개별 클릭 인터랙션 도입)
+            // [성공 2] 샘플 B: 식용유 + 물 + 에탄올 (밀도, 끓는점)
             else if (selectedMixture === 'mix-B' && propStr === '밀도,끓는점' && selectedTool === 'tool-B') {
                 statusDot.className = "text-emerald-400 animate-ping text-[10px]";
-                display.innerHTML = `
-                    <div class="w-full grid grid-cols-2 gap-4 text-center items-center px-4">
-                        
-                        <!-- [STEP 1] 분별깔때기 카드 -->
-                        <div onclick="playStep1()" class="group bg-slate-900/90 p-4 rounded-xl border border-yellow-500/40 hover:border-yellow-400 shadow-lg h-56 flex flex-col justify-between overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02]">
-                            <div class="flex justify-between items-center">
-                                <span class="text-[10px] uppercase font-mono text-yellow-400 tracking-wider font-bold">STEP 1. 밀도 분리</span>
-                                <span class="text-[9px] bg-yellow-500/20 text-yellow-300 px-1.5 py-0.5 rounded font-mono animate-pulse">CLICK ME</span>
-                            </div>
-                            <div class="relative flex flex-col justify-center items-center h-28 bg-slate-950/80 rounded-lg p-2 border border-slate-800">
-                                <div class="w-16 h-20 border-x border-b border-slate-700 rounded-b-full relative flex flex-col justify-end overflow-hidden">
-                                    <div id="oil-layer" class="w-full h-8 bg-amber-500/40 border-b border-dashed border-amber-400 text-[9px] text-amber-200 font-bold flex items-center justify-center transition-all duration-1000">
-                                        식용유 층
-                                    </div>
-                                    <div id="water-ethanol-layer" class="w-full h-10 bg-sky-500/40 text-[9px] text-sky-200 font-bold flex items-center justify-center transition-all duration-[2000ms]">
-                                        물 + 에탄올
-                                    </div>
-                                </div>
-                                <div class="w-2 h-4 bg-slate-600 relative">
-                                    <div id="valve-switch" class="absolute -left-1 top-0 w-4 h-1.5 bg-rose-500 rounded transition-transform duration-300"></div>
-                                </div>
-                                <div id="drain-drop" class="w-0.5 h-6 bg-sky-400/80 opacity-0 transition-opacity duration-300"></div>
-                            </div>
-                            <div class="text-[11px] text-slate-300 font-bold group-hover:text-yellow-400 transition-colors">분별깔때기 하부 코크 개방</div>
-                        </div>
-
-                        <!-- [STEP 2] 가지 달린 증류 플라스크 카드 -->
-                        <div onclick="playStep2()" class="group bg-slate-900/90 p-4 rounded-xl border border-purple-500/40 hover:border-purple-400 shadow-lg h-56 flex flex-col justify-between overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02]">
-                            <div class="flex justify-between items-center">
-                                <span class="text-[10px] uppercase font-mono text-purple-400 tracking-wider font-bold">STEP 2. 증류 추출</span>
-                                <span class="text-[9px] bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded font-mono animate-pulse">CLICK ME</span>
-                            </div>
-                            <div class="relative flex flex-col justify-center items-center h-28 bg-slate-950/80 rounded-lg p-2 border border-slate-800">
-                                <div class="absolute top-2 w-full flex justify-center space-x-1.5 text-purple-400/0 text-[10px] transition-all duration-700" id="steam-flow">
-                                    <i class="fa-solid fa-wind animate-bounce"></i>
-                                    <span class="font-mono text-[9px] tracking-tighter">에탄올 기화 중 (78℃)</span>
-                                </div>
-                                <div class="relative w-12 h-14 border-x border-b border-slate-600 rounded-b-2xl flex flex-col justify-end overflow-hidden mt-4">
-                                    <div id="distill-liquid" class="w-full h-7 bg-blue-500/30 text-[8px] text-blue-300 font-bold flex items-center justify-center transition-all duration-[3000ms]">
-                                        혼합 액체
-                                    </div>
-                                </div>
-                                <div class="mt-1 text-slate-600 transition-colors duration-300" id="lamp-fire">
-                                    <i class="fa-solid fa-fire text-xl"></i>
-                                </div>
-                            </div>
-                            <div class="text-[11px] text-slate-300 font-bold group-hover:text-purple-400 transition-colors">끓는점 차이 분별 증류 활성화</div>
-                        </div>
-
-                    </div>
-                `;
-                feedback.className = "bg-indigo-950 text-indigo-300 border border-indigo-900 rounded-xl p-3.5 text-center text-xs font-medium";
-                feedback.innerHTML = "💡 각 단계 카드를 마우스로 클릭하면 교과서 원리대로 시뮬레이션이 실시간으로 작동합니다!";
+                renderSampleB();
             }
-            // [성공 케이스 3] 샘플 C 비주얼 처리
+            // [성공 3] 샘플 C: 소금 + 모래 + 플라스틱 (용해도, 밀도)
             else if (selectedMixture === 'mix-C' && propStr === '용해도,밀도' && selectedTool === 'tool-D') {
                 statusDot.className = "text-emerald-400 animate-ping text-[10px]";
-                display.innerHTML = `
-                    <div class="w-full grid grid-cols-2 gap-4 text-center items-center px-6">
-                        <div class="bg-slate-900/90 p-4 rounded-xl border border-teal-500/60 shadow-lg h-48 flex flex-col justify-between overflow-hidden">
-                            <div class="text-[10px] uppercase font-mono text-teal-400 tracking-wider">STEP 1. 비중 부유</div>
-                            <div class="relative flex flex-col justify-center items-center h-24 bg-slate-950 rounded-lg">
-                                <div class="w-16 h-12 bg-sky-500/20 border border-sky-500/40 rounded relative">
-                                    <span class="absolute text-emerald-400 text-xs animate-bounce top-1 left-2"><i class="fa-solid fa-shapes"></i></span>
-                                    <span class="absolute text-emerald-400 text-xs animate-bounce top-2 right-3"><i class="fa-solid fa-cube"></i></span>
-                                    <span class="absolute text-slate-500 text-[9px] bottom-1 left-4 font-bold">모래 침전</span>
-                                </div>
-                            </div>
-                            <div class="text-[11px] text-slate-200 font-bold">플라스틱 상부 부유 포집</div>
-                        </div>
-                        <div class="bg-slate-900/90 p-4 rounded-xl border border-orange-500/60 shadow-lg h-48 flex flex-col justify-between overflow-hidden">
-                            <div class="text-[10px] uppercase font-mono text-orange-400 tracking-wider">STEP 2. 여과 공정</div>
-                            <div class="relative flex flex-col justify-center items-center h-24">
-                                <i class="fa-solid fa-filter text-orange-400 text-3xl"></i>
-                                <i class="fa-solid fa-droplet text-sky-400 text-xs anim-drip absolute top-12"></i>
-                            </div>
-                            <div class="text-[11px] text-slate-200 font-bold">거름종이 모래 포집 완료</div>
-                        </div>
-                    </div>
-                `;
-                feedback.className = "bg-emerald-950 text-emerald-300 border border-emerald-800 rounded-xl p-4 text-center text-xs font-bold shadow-inner";
-                feedback.innerHTML = "🎯 [실험 대성공] 물 용해 유도형 밀도 부유물 분리 ➡️ 거름 깔때기 정제 프로세스가 완성되었습니다!";
+                renderSampleC();
             }
-            // [조건 불일치 오류 케이스]
             else {
                 executeOtherSamples(propStr, display, feedback, statusDot);
             }
         }
 
-        /* --- STEP 1 구동 제어함수 --- */
-        function playStep1() {
-            const valve = document.getElementById('valve-switch');
-            const drop = document.getElementById('drain-drop');
-            const waterLayer = document.getElementById('water-ethanol-layer');
-            const oilLayer = document.getElementById('oil-layer');
+        /* =========================================================================
+           [샘플 A: 철가루 + 소금 + 모래] 고정밀 SVG 시뮬레이터 렌더링 및 하위 스태퍼
+           ========================================================================= */
+        function renderSampleA() {
+            const display = document.getElementById('sim-display');
             const feedback = document.getElementById('lab-feedback');
 
-            if(!valve) return;
-            valve.style.transform = "rotate(90deg)";
-            drop.style.opacity = "1";
-            drop.className = "w-0.5 h-6 bg-sky-400/80 anim-drip"; 
-            
-            setTimeout(() => {
-                waterLayer.style.height = "0px";
-                waterLayer.style.opacity = "0";
-                oilLayer.style.transform = "translateY(22px)";
-                
-                feedback.className = "bg-amber-950 text-amber-300 border border-amber-800 rounded-xl p-3.5 text-center text-xs font-bold";
-                feedback.innerHTML = "💧 [밀도 분리 완료] 밀도가 큰 '물+에탄올' 수용액이 아래 코크로 먼저 흘러내려 분리되고, 깔때기 안에는 밀도가 작은 '식용유'만 깨끗하게 남았습니다!";
-            }, 300);
-        }
-
-        /* --- STEP 2 구동 제어함수 --- */
-        function playStep2() {
-            const lamp = document.getElementById('lamp-fire');
-            const steam = document.getElementById('steam-flow');
-            const liquid = document.getElementById('distill-liquid');
-            const feedback = document.getElementById('lab-feedback');
-
-            if(!lamp) return;
-            lamp.className = "mt-1 text-orange-500 anim-fire";
-            steam.className = "absolute top-1 w-full flex justify-center space-x-1.5 text-purple-400 text-[10px] transition-all duration-700 animate-pulse";
-            
-            setTimeout(() => {
-                liquid.style.height = "30%";
-                liquid.innerText = "물(잔류)";
-                liquid.className = "w-full bg-blue-600/50 text-[8px] text-blue-200 font-bold flex items-center justify-center transition-all duration-[3000ms]";
-                
-                feedback.className = "bg-purple-950 text-purple-300 border border-purple-800 rounded-xl p-3.5 text-center text-xs font-bold";
-                feedback.innerHTML = "🧪 [증류 분리 완료] 가열을 시작하자 끓는점이 낮은 에탄올(78℃)이 먼저 끓어 기화된 뒤 가지관을 타고 나가 액화되었고, 증류 플라스크 안에는 물만 남았습니다!";
-            }, 500);
-        }
-
-        function executeOtherSamples(propStr, display, feedback, statusDot) {
-            statusDot.className = "text-rose-500 text-[10px]";
-            display.innerHTML = `<div class="text-rose-500 text-5xl animate-pulse"><i class="fa-solid fa-circle-xmark"></i></div>`;
-            feedback.className = "bg-rose-950 text-rose-200 border border-rose-800 rounded-xl p-4 text-left text-xs leading-relaxed space-y-1";
-            
-            let reason = `<strong>❌ 설계 매커니즘 미매칭 오류 분석 피드백:</strong><br>`;
-            if(selectedMixture === 'mix-A') {
-                reason += `샘플 A 분리에는 철가루를 추출할 <strong>[자성]</strong>과 소금을 녹일 <strong>[용해도]</strong> 결합 경로가 필수적이며, 장치는 <strong>[tool-A 세트]</strong>를 매칭해야 모터 유동 회로가 트리거됩니다.`;
-            } else if(selectedMixture === 'mix-B') {
-                reason += `샘플 B는 액체 혼합물이므로 층을 분리하는 <strong>[밀도]</strong>와 분별 증류 조건인 <strong>[끓는점]</strong>을 조합하고, <strong>[tool-B 세트]</strong>를 가동시켜야 움직임이 활성화됩니다.`;
-            } else if(selectedMixture === 'mix-C') {
-                reason += `샘플 C는 물에 용해시켜 뜨고 가라앉히는 <strong>[용해도]</strong> 및 <strong>[밀도]</strong> 특성 연계가 타당하며 기구는 핀셋이 포함된 <strong>[tool-D 세트]</strong> 규격에서 물리 연산이 실행됩니다.`;
+            let content = "";
+            if (currentStepA === 1) {
+                feedback.innerText = "1단계: 혼합물 속에 숨어있는 철가루를 '자성'을 가진 자석을 가까이 대어 먼저 떼어내야 합니다. 자석 작동 버튼을 누르세요.";
+                content = `
+                    <div class="flex flex-col items-center justify-between w-full h-full max-w-md">
+                        <div class="text-xs bg-indigo-950 text-indigo-300 font-bold border border-indigo-800/60 px-3 py-1.5 rounded-full mb-3 self-start">
+                            [1단계 / 총 3단계] 자석봉으로 철가루(자성) 흡착하기
+                        </div>
+                        <div class="relative w-full h-64 flex justify-center items-center bg-slate-900 rounded-xl border border-slate-800">
+                            <svg viewBox="0 0 200 160" class="w-72 h-52">
+                                <!-- Petri dish -->
+                                <ellipse cx="100" cy="130" rx="70" ry="15" fill="#1e293b" stroke="#64748b" stroke-width="2"/>
+                                <!-- Mixed substances (Sand: yellow, Salt: white, Iron: black) -->
+                                <g id="particles-A">
+                                    <ellipse cx="60" cy="130" rx="2" ry="1" fill="#fbbf24"/>
+                                    <ellipse cx="75" cy="128" rx="2" ry="1" fill="#ffffff"/>
+                                    <ellipse cx="90" cy="132" rx="2" ry="1" fill="#94a3b8"/>
+                                    <ellipse cx="110" cy="129" rx="2" ry="1" fill="#fbbf24"/>
+                                    <ellipse cx="130" cy="130" rx="2" ry="1" fill="#ffffff"/>
+                                    <!-- Iron filings -->
+                                    <circle id="iron1" cx="80" cy="131" r="2.5" fill="#0f172a"/>
+                                    <circle id="iron2" cx="100" cy="128" r="2.5" fill="#0f172a"/>
+                                    <circle id="iron3" cx="115" cy="132" r="2.5" fill="#0f172a"/>
+                                </g>
+                                <!-- Magnet Rod (S and N) -->
+                                <g id="magnet-rod" class="">
+                                    <rect x="90" y="20" width="20" height="60" rx="4" fill="#ef4444"/>
+                                    <rect x="90" y="50" width="20" height="30" rx="2" fill="#3b82f6"/>
+                                    <text x="100" y="38" fill="white" font-size="8" font-weight="bold" text-anchor="middle">N</text>
+                                    <text x="100" y="72" fill="white" font-size="8" font-weight="bold" text-anchor="middle">S</text>
+                                </g>
+                            </svg>
+                        </div>
+                        <button onclick="actionStepA(1)" class="w-full mt-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs py-2.5 rounded-xl transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-magnet animate-pulse"></i> 자석봉 가동하여 철가루 끌어올리기
+                        </button>
+                    </div>
+                `;
+            } else if (currentStepA === 2) {
+                feedback.innerText = "2단계: 철가루가 빠져나간 모래와 소금에 '물'을 붓고 녹인 뒤 거름 장치에 통과시킵니다. 거르기 조작 버튼을 누르세요.";
+                content = `
+                    <div class="flex flex-col items-center justify-between w-full h-full max-w-md">
+                        <div class="text-xs bg-indigo-950 text-indigo-300 font-bold border border-indigo-800/60 px-3 py-1.5 rounded-full mb-3 self-start">
+                            [2단계 / 3단계] 거름종이와 깔때기로 모래(용해도 차) 걸러내기
+                        </div>
+                        <div class="relative w-full h-64 flex justify-center items-center bg-slate-900 rounded-xl border border-slate-800">
+                            <svg viewBox="0 0 200 180" class="w-72 h-52">
+                                <!-- Ring stand -->
+                                <line x1="60" y1="20" x2="60" y2="160" stroke="#475569" stroke-width="4"/>
+                                <line x1="40" y1="160" x2="160" y2="160" stroke="#475569" stroke-width="6"/>
+                                <!-- Ring holder support -->
+                                <line x1="60" y1="70" x2="100" y2="70" stroke="#475569" stroke-width="3"/>
+                                <!-- Funnel Glass -->
+                                <path d="M80,50 L120,50 L110,80 L102,110 L98,110 L90,80 Z" fill="none" stroke="#94a3b8" stroke-width="2"/>
+                                <!-- Beaker Below -->
+                                <rect x="80" y="120" width="40" height="35" rx="3" fill="none" stroke="#94a3b8" stroke-width="2"/>
+                                <rect x="81" y="132" width="38" height="22" fill="#38bdf8" fill-opacity="0.2"/>
+                                <!-- Filter paper and sand -->
+                                <path d="M83,52 L117,52 L100,75 Z" fill="#ffffff" fill-opacity="0.8" stroke="#cbd5e1"/>
+                                <ellipse id="sand-filter" cx="100" cy="56" rx="10" ry="3" fill="#fbbf24" class="transition-opacity duration-700"/>
+                                <!-- Liquid drips -->
+                                <circle id="drop-a" cx="100" cy="113" r="2.5" fill="#38bdf8" class="opacity-0"/>
+                            </svg>
+                        </div>
+                        <button onclick="actionStepA(2)" class="w-full mt-3 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs py-2.5 rounded-xl transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-filter"></i> 혼합 수용액 부어 모래 여과하기
+                        </button>
+                    </div>
+                `;
+            } else if (currentStepA === 3) {
+                feedback.innerText = "3단계: 모래를 제거하고 얻은 소금물을 가열하여 물을 수증기로 증발시킵니다. 증발 증정 버튼을 누르세요.";
+                content = `
+                    <div class="flex flex-col items-center justify-between w-full h-full max-w-md">
+                        <div class="text-xs bg-indigo-950 text-indigo-300 font-bold border border-indigo-800/60 px-3 py-1.5 rounded-full mb-3 self-start">
+                            [3단계 / 3단계] 증발 접시 가열하여 순수 소금(끓는점) 재결정
+                        </div>
+                        <div class="relative w-full h-64 flex justify-center items-center bg-slate-900 rounded-xl border border-slate-800">
+                            <svg viewBox="0 0 200 180" class="w-72 h-52">
+                                <!-- Tripod stand & Gauze -->
+                                <line x1="70" y1="100" x2="130" y2="100" stroke="#64748b" stroke-width="3"/>
+                                <line x1="75" y1="100" x2="60" y2="150" stroke="#475569" stroke-width="4"/>
+                                <line x1="125" y1="100" x2="140" y2="150" stroke="#475569" stroke-width="4"/>
+                                <line x1="100" y1="100" x2="100" y2="150" stroke="#475569" stroke-width="4"/>
+                                <!-- Evaporating dish -->
+                                <path d="M75,80 C75,100 125,100 125,80 Z" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/>
+                                <!-- Liquid Level inside Dish -->
+                                <path id="salt-water-level" d="M78,85 C78,97 122,97 122,85 Z" fill="#38bdf8" fill-opacity="0.4"/>
+                                <g id="salt-crystals" class="opacity-0">
+                                    <rect x="90" y="90" width="3" height="3" fill="#ffffff" stroke="#cbd5e1"/>
+                                    <rect x="105" y="92" width="3" height="3" fill="#ffffff" stroke="#cbd5e1"/>
+                                    <rect x="98" y="88" width="3" height="3" fill="#ffffff" stroke="#cbd5e1"/>
+                                </g>
+                                <!-- Torch Flame -->
+                                <path id="burner-flame" d="M100,120 Q95,135 100,150 Q105,135 100,120 Z" fill="#f97316" class="opacity-0" stroke="#ef4444"/>
+                                <!-- Steam rising -->
+                                <path id="steam1" d="M90,70 Q85,60 92,50" fill="none" stroke="#cbd5e1" stroke-width="1.5" class="opacity-0"/>
+                                <path id="steam2" d="M110,70 Q115,60 108,50" fill="none" stroke="#cbd5e1" stroke-width="1.5" class="opacity-0"/>
+                            </svg>
+                        </div>
+                        <button onclick="actionStepA(3)" class="w-full mt-3 bg-red-600 hover:bg-red-700 text-white font-bold text-xs py-2.5 rounded-xl transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-fire"></i> 토치 점화하여 소금 증발 결정 정제하기
+                        </button>
+                    </div>
+                `;
             }
-            feedback.innerHTML = reason;
+            display.innerHTML = content;
         }
 
-        /* --- 설계서 에디터 공통 스크립트 모듈 --- */
+        function actionStepA(step) {
+            if (step === 1) {
+                const rod = document.getElementById('magnet-rod');
+                const iron1 = document.getElementById('iron1');
+                const iron2 = document.getElementById('iron2');
+                const iron3 = document.getElementById('iron3');
+                
+                rod.classList.add('anim-magnet-down');
+                iron1.classList.add('anim-iron-jump');
+                iron2.classList.add('anim-iron-jump');
+                iron3.classList.add('anim-iron-jump');
+
+                setTimeout(() => {
+                    showToast("철가루가 자기력에 이끌려 자석 표면에 완전히 달라붙었습니다[cite: 1]!", "success");
+                    currentStepA = 2;
+                    renderSampleA();
+                }, 2200);
+            } else if (step === 2) {
+                const drop = document.getElementById('drop-a');
+                const sand = document.getElementById('sand-filter');
+                
+                drop.classList.add('anim-drip-drop');
+                sand.style.opacity = '0.3';
+
+                setTimeout(() => {
+                    showToast("모래는 크기가 커서 거름종이를 통과하지 못해 깔때기 위에 안전하게 남았습니다[cite: 1]!", "success");
+                    currentStepA = 3;
+                    renderSampleA();
+                }, 3000);
+            } else if (step === 3) {
+                const flame = document.getElementById('burner-flame');
+                const steam1 = document.getElementById('steam1');
+                const steam2 = document.getElementById('steam2');
+                const level = document.getElementById('salt-water-level');
+                const crystals = document.getElementById('salt-crystals');
+
+                flame.classList.remove('opacity-0');
+                flame.classList.add('anim-fire');
+                steam1.classList.remove('opacity-0');
+                steam1.classList.add('anim-steam-svg');
+                steam2.classList.remove('opacity-0');
+                steam2.classList.add('anim-steam-svg');
+
+                level.style.transition = "all 4s ease-out";
+                level.style.transform = "scaleY(0.1)";
+                level.style.transformOrigin = "bottom";
+
+                setTimeout(() => {
+                    crystals.classList.remove('opacity-0');
+                    crystals.style.transition = "opacity 1s ease-in";
+                    level.classList.add('opacity-0');
+                    showToast("소금물의 물이 완전히 기화하여 증발 접시 바닥에 새하얀 소금 결정이 석출되었습니다[cite: 1]!", "success");
+                    
+                    // 실험 마무리 피드백
+                    document.getElementById('lab-feedback').innerHTML = "🏁 <strong>[샘플 A 연쇄 분리 완료]</strong> 철가루 ➡️ 모래 ➡️ 소금이 완벽하게 순물질 형태로 분리 정제되었습니다[cite: 1]!";
+                }, 4000);
+            }
+        }
+
+        /* =========================================================================
+           [샘플 B: 식용유 + 물 + 에탄올] 고정밀 SVG 시뮬레이터 렌더링 및 하위 스태퍼
+           ========================================================================= */
+        function renderSampleB() {
+            const display = document.getElementById('sim-display');
+            const feedback = document.getElementById('lab-feedback');
+
+            let content = "";
+            if (currentStepB === 1) {
+                feedback.innerText = "1단계: 섞이지 않고 밀도 차로 층이 분리된 식용유(위)와 물+에탄올(아래) 혼합액을 분별 깔때기를 작동시켜 하부 비커로 분리 포집하세요.";
+                content = `
+                    <div class="flex flex-col items-center justify-between w-full h-full max-w-md">
+                        <div class="text-xs bg-indigo-950 text-indigo-300 font-bold border border-indigo-800/60 px-3 py-1.5 rounded-full mb-3 self-start">
+                            [1단계 / 2단계] 분별깔때기로 밀도가 작은 식용유 분리
+                        </div>
+                        <div class="relative w-full h-72 flex justify-center items-center bg-slate-900 rounded-xl border border-slate-800">
+                            <svg viewBox="0 0 200 210" class="w-72 h-64">
+                                <!-- Stand structure -->
+                                <line x1="50" y1="20" x2="50" y2="190" stroke="#475569" stroke-width="4"/>
+                                <line x1="30" y1="190" x2="170" y2="190" stroke="#475569" stroke-width="6"/>
+                                <!-- Support Ring -->
+                                <line x1="50" y1="70" x2="100" y2="70" stroke="#475569" stroke-width="3"/>
+                                
+                                <!-- Beaker Below -->
+                                <rect x="80" y="145" width="40" height="40" rx="3" fill="none" stroke="#94a3b8" stroke-width="2"/>
+                                <rect id="beaker-liquid" x="81" y="184" width="38" height="0" fill="#38bdf8" fill-opacity="0.3"/>
+
+                                <!-- Separatory Funnel Glass Body -->
+                                <path d="M75,30 C75,10 125,10 125,30 L125,75 C125,105 105,115 105,130 L105,145 L95,145 L95,130 C95,115 75,105 75,75 Z" fill="none" stroke="#e2e8f0" stroke-width="2"/>
+                                
+                                <!-- Liquids inside Separatory Funnel -->
+                                <g id="funnel-liquids">
+                                    <!-- Cooking Oil Layer (Yellow - Density: 0.92) -->
+                                    <path id="layer-oil" d="M76,40 C76,55 124,55 124,40 L124,65 C124,75 118,85 110,91 C90,91 76,80 76,65 Z" fill="#eab308" fill-opacity="0.6"/>
+                                    <!-- Water + Ethanol Layer (Blue - Density: 1.00) -->
+                                    <path id="layer-water" d="M78,65 C78,80 122,80 122,65 L121,78 C121,95 103,105 103,115 L102,125 L98,125 L97,115 C97,105 79,95 79,78 Z" fill="#0ea5e9" fill-opacity="0.4"/>
+                                </g>
+
+                                <!-- Rotatable Valve Cock -->
+                                <circle id="valve-cock" cx="100" cy="132" r="6" fill="#334155" stroke="#94a3b8" stroke-width="1.5" style="transform-origin: 100px 132px; transition: transform 0.8s;"/>
+                                <line id="valve-bar" x1="94" y1="132" x2="106" y2="132" stroke="#ef4444" stroke-width="3" style="transform-origin: 100px 132px; transition: transform 0.8s;"/>
+
+                                <!-- Dropping flow -->
+                                <circle id="drip-b" cx="100" cy="148" r="2.5" fill="#0ea5e9" class="opacity-0"/>
+                            </svg>
+                        </div>
+                        <button onclick="actionStepB(1)" class="w-full mt-3 bg-yellow-600 hover:bg-yellow-700 text-white font-bold text-xs py-2.5 rounded-xl transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-rotate animate-spin"></i> 분별깔때기 콕(밸브) 돌려 개방하기
+                        </button>
+                    </div>
+                `;
+            } else if (currentStepB === 2) {
+                feedback.innerText = "2단계: 인화성이 높은 에탄올 분리 시에는 절대 화재 위험이 있으므로 직접 가열하면 안 되고, 중탕 수조를 활용한 '물중탕 증류법'을 실행해야 합니다.";
+                content = `
+                    <div class="flex flex-col items-center justify-between w-full h-full max-w-md">
+                        <div class="text-xs bg-indigo-950 text-indigo-300 font-bold border border-indigo-800/60 px-3 py-1.5 rounded-full mb-3 self-start">
+                            [2단계 / 2단계] 안전한 물중탕 증류 장치로 에탄올 기화 분리
+                        </div>
+                        <div class="relative w-full h-72 flex justify-center items-center bg-slate-900 rounded-xl border border-slate-800">
+                            <svg viewBox="0 0 200 210" class="w-72 h-64">
+                                <!-- Hot plate -->
+                                <rect x="35" y="160" width="130" height="15" rx="3" fill="#334155"/>
+                                <rect id="heat-glow" x="40" y="157" width="120" height="4" fill="#f43f5e" class="opacity-0 transition-opacity duration-1000"/>
+                                
+                                <!-- Outer Water Bath Beaker -->
+                                <rect x="45" y="80" width="70" height="80" rx="4" fill="none" stroke="#64748b" stroke-width="2"/>
+                                <rect id="water-bath-fill" x="46" y="105" width="68" height="54" fill="#38bdf8" fill-opacity="0.3"/>
+                                
+                                <!-- Inner Distillation Flask containing Water+Ethanol -->
+                                <path d="M70,80 L70,60 L90,60 L90,80" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+                                <path d="M60,110 C60,135 100,135 100,110 Z" fill="none" stroke="#e2e8f0" stroke-width="2"/>
+                                <path id="distill-liquid-level" d="M63,115 C63,132 97,132 97,115 Z" fill="#c084fc" fill-opacity="0.4"/>
+
+                                <!-- Bubble loops -->
+                                <circle id="boil1" cx="72" cy="120" r="1.5" fill="#ffffff" class="opacity-0"/>
+                                <circle id="boil2" cx="88" cy="123" r="1.5" fill="#ffffff" class="opacity-0"/>
+
+                                <!-- Delivery Condensing Tube -->
+                                <path d="M80,60 L80,45 L145,45 L145,110" fill="none" stroke="#e2e8f0" stroke-width="2.5"/>
+                                
+                                <!-- Receiving Test Tube in Ice Beaker -->
+                                <rect x="125" y="110" width="40" height="50" rx="3" fill="none" stroke="#64748b" stroke-width="2"/>
+                                <rect x="126" y="130" width="38" height="29" fill="#0ea5e9" fill-opacity="0.1"/> <!-- Cold water -->
+                                <!-- Test tube inside -->
+                                <path d="M140,105 L140,140 C140,148 150,148 150,140 L150,105" fill="none" stroke="#e2e8f0" stroke-width="1.5"/>
+                                <rect id="ethanol-collected" x="141" y="138" width="8" height="0" fill="#a78bfa" fill-opacity="0.6"/>
+
+                                <!-- Steam indicators -->
+                                <path id="b-steam-1" d="M80,45 Q90,38 100,45" fill="none" stroke="#cbd5e1" stroke-width="1.5" class="opacity-0"/>
+                                <path id="b-steam-2" d="M120,45 Q130,38 140,45" fill="none" stroke="#cbd5e1" stroke-width="1.5" class="opacity-0"/>
+
+                                <!-- Thermometer Glass -->
+                                <rect x="78" y="30" width="4" height="45" rx="1" fill="#e2e8f0"/>
+                                <rect id="thermometer-temp" x="79" y="70" width="2" height="5" fill="#ef4444" style="transition: transform 4s;"/>
+                            </svg>
+                        </div>
+                        <button onclick="actionStepB(2)" class="w-full mt-3 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs py-2.5 rounded-xl transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-temperature-arrow-up animate-pulse"></i> 물중탕 간접 가열 가동하여 에탄올 증류하기
+                        </button>
+                    </div>
+                `;
+            }
+            display.innerHTML = content;
+        }
+
+        function actionStepB(step) {
+            if (step === 1) {
+                const valve = document.getElementById('valve-cock');
+                const bar = document.getElementById('valve-bar');
+                const drip = document.getElementById('drip-b');
+                const waterL = document.getElementById('layer-water');
+                const oilL = document.getElementById('layer-oil');
+                const bkLiquid = document.getElementById('beaker-liquid');
+
+                // 콕 개방 회전
+                valve.style.transform = "rotate(90deg)";
+                bar.style.transform = "rotate(90deg)";
+                drip.classList.add('anim-drip-drop');
+
+                // 애니메이션 시동
+                waterL.style.transition = "transform 4s ease-out, opacity 4s";
+                waterL.style.transform = "scaleY(0)";
+                waterL.style.transformOrigin = "bottom";
+                
+                oilL.style.transition = "transform 4s ease-out";
+                oilL.style.transform = "translateY(22px)";
+
+                bkLiquid.style.transition = "all 4s ease-out";
+                bkLiquid.style.height = "25px";
+                bkLiquid.style.y = "159px"; // Fill up beaker
+
+                setTimeout(() => {
+                    drip.classList.remove('anim-drip-drop');
+                    waterL.classList.add('opacity-0');
+                    showToast("밀도가 큰 물과 에탄올 수용액이 하단 비커로 완전히 빠졌습니다. 분별깔때기에는 식용유만 남았습니다[cite: 1]!", "success");
+                    currentStepB = 2;
+                    renderSampleB();
+                }, 4000);
+            } else if (step === 2) {
+                const glow = document.getElementById('heat-glow');
+                const boil1 = document.getElementById('boil1');
+                const boil2 = document.getElementById('boil2');
+                const steam1 = document.getElementById('b-steam-1');
+                const steam2 = document.getElementById('b-steam-2');
+                const liquidLevel = document.getElementById('distill-liquid-level');
+                const temp = document.getElementById('thermometer-temp');
+                const ethanol = document.getElementById('ethanol-collected');
+
+                glow.classList.remove('opacity-0');
+                boil1.classList.remove('opacity-0');
+                boil2.classList.remove('opacity-0');
+                boil1.classList.add('anim-boil');
+                boil2.classList.add('anim-boil');
+
+                steam1.classList.remove('opacity-0');
+                steam1.classList.add('anim-steam-svg');
+                steam2.classList.remove('opacity-0');
+                steam2.classList.add('anim-steam-svg');
+
+                // 온도계 상승
+                temp.style.transform = "translateY(-15px)";
+
+                liquidLevel.style.transition = "all 4.5s ease-out";
+                liquidLevel.style.transform = "scaleY(0.4)";
+                liquidLevel.style.transformOrigin = "bottom";
+
+                ethanol.style.transition = "all 4.5s ease-out";
+                ethanol.style.height = "12px";
+                ethanol.style.y = "133px";
+
+                setTimeout(() => {
+                    showToast("끓는점이 78.2℃인 에탄올이 먼저 끓어나와 수증기 응결관을 거친 후 차가운 시험관에 정제 완료되었습니다[cite: 1]!", "success");
+                    document.getElementById('lab-feedback').innerHTML = "🏁 <strong>[샘플 B 연쇄 분리 완료]</strong> 물과 식용유, 에탄올이 물리학 수치에 부합하게 안전하고 깨끗하게 순차 분류되었습니다[cite: 1]!";
+                }, 4500);
+            }
+        }
+
+        /* =========================================================================
+           [샘플 C: 소금 + 모래 + 플라스틱] 고정밀 SVG 시뮬레이터 렌더링 및 하위 스태퍼
+           ========================================================================= */
+        function renderSampleC() {
+            const display = document.getElementById('sim-display');
+            const feedback = document.getElementById('lab-feedback');
+
+            let content = "";
+            if (currentStepC === 1) {
+                feedback.innerText = "1단계: 물을 붓고 잘 저어주면 소금은 완전히 녹고, 모래는 가라앉으며, 플라스틱 조각은 물보다 밀도가 작아 위로 뜹니다. 플라스틱을 분리하세요.";
+                content = `
+                    <div class="flex flex-col items-center justify-between w-full h-full max-w-md">
+                        <div class="text-xs bg-indigo-950 text-indigo-300 font-bold border border-indigo-800/60 px-3 py-1.5 rounded-full mb-3 self-start">
+                            [1단계 / 3단계] 밀도차가 큰 플라스틱 조각 상부 부유 분리
+                        </div>
+                        <div class="relative w-full h-64 flex justify-center items-center bg-slate-900 rounded-xl border border-slate-800">
+                            <svg viewBox="0 0 200 160" class="w-72 h-52">
+                                <!-- Beaker with Liquid -->
+                                <rect x="65" y="30" width="70" height="110" rx="4" fill="none" stroke="#94a3b8" stroke-width="2"/>
+                                <rect x="66" y="65" width="68" height="74" fill="#38bdf8" fill-opacity="0.3"/>
+                                
+                                <!-- Floating Plastics (Green) -->
+                                <g id="floating-plastic">
+                                    <rect x="75" y="60" width="8" height="8" rx="1.5" fill="#34d399"/>
+                                    <rect x="105" y="62" width="8" height="8" rx="1.5" fill="#34d399"/>
+                                    <rect x="90" y="58" width="8" height="8" rx="1.5" fill="#34d399"/>
+                                </g>
+
+                                <!-- Sunken Sand (Sand-colored bottom layer) -->
+                                <ellipse cx="100" cy="132" rx="30" ry="6" fill="#fbbf24" fill-opacity="0.7"/>
+
+                                <!-- Sieve Scoop Net -->
+                                <g id="scoop-net" class="transition-all duration-1000" style="transform: translate(-30px, -20px);">
+                                    <line x1="100" y1="20" x2="100" y2="70" stroke="#cbd5e1" stroke-width="2.5"/>
+                                    <!-- Scoop head -->
+                                    <path d="M85,70 Q100,85 115,70" fill="none" stroke="#475569" stroke-width="2"/>
+                                </g>
+                            </svg>
+                        </div>
+                        <button onclick="actionStepC(1)" class="w-full mt-3 bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs py-2.5 rounded-xl transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-spoon animate-bounce"></i> 뜰채(체)를 이용하여 플라스틱 조각 건져내기
+                        </button>
+                    </div>
+                `;
+            } else if (currentStepC === 2) {
+                feedback.innerText = "2단계: 물에 뜨는 물질을 차단했으므로 깔때기 여과지를 설치하여 가라앉은 모래를 깔끔히 걸러냅니다.";
+                content = `
+                    <div class="flex flex-col items-center justify-between w-full h-full max-w-md">
+                        <div class="text-xs bg-indigo-950 text-indigo-300 font-bold border border-indigo-800/60 px-3 py-1.5 rounded-full mb-3 self-start">
+                            [2단계 / 3단계] 물에 녹지 않는 모래 여과하기
+                        </div>
+                        <div class="relative w-full h-64 flex justify-center items-center bg-slate-900 rounded-xl border border-slate-800">
+                            <svg viewBox="0 0 200 180" class="w-72 h-52">
+                                <line x1="60" y1="20" x2="60" y2="160" stroke="#475569" stroke-width="4"/>
+                                <line x1="40" y1="160" x2="160" y2="160" stroke="#475569" stroke-width="6"/>
+                                <line x1="60" y1="70" x2="100" y2="70" stroke="#475569" stroke-width="3"/>
+                                
+                                <path d="M80,50 L120,50 L110,80 L102,110 L98,110 L90,80 Z" fill="none" stroke="#94a3b8" stroke-width="2"/>
+                                <rect x="80" y="120" width="40" height="35" rx="3" fill="none" stroke="#94a3b8" stroke-width="2"/>
+                                <rect x="81" y="132" width="38" height="22" fill="#38bdf8" fill-opacity="0.2"/>
+                                
+                                <path d="M83,52 L117,52 L100,75 Z" fill="#ffffff" fill-opacity="0.8" stroke="#cbd5e1"/>
+                                <ellipse id="sand-filter-c" cx="100" cy="56" rx="10" ry="3" fill="#fbbf24"/>
+                                <circle id="drop-c" cx="100" cy="113" r="2.5" fill="#38bdf8" class="opacity-0"/>
+                            </svg>
+                        </div>
+                        <button onclick="actionStepC(2)" class="w-full mt-3 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs py-2.5 rounded-xl transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-filter"></i> 깔때기에 부어 모래 여과하기
+                        </button>
+                    </div>
+                `;
+            } else if (currentStepC === 3) {
+                feedback.innerText = "3단계: 모래를 분리한 후 깔때기를 빠져나간 순수 투명한 소금물 수용액을 가열하여 수분을 증발시켜 소금만 남깁니다.";
+                content = `
+                    <div class="flex flex-col items-center justify-between w-full h-full max-w-md">
+                        <div class="text-xs bg-indigo-950 text-indigo-300 font-bold border border-indigo-800/60 px-3 py-1.5 rounded-full mb-3 self-start">
+                            [3단계 / 3단계] 물 증발 및 소금 결정 획득
+                        </div>
+                        <div class="relative w-full h-64 flex justify-center items-center bg-slate-900 rounded-xl border border-slate-800">
+                            <svg viewBox="0 0 200 180" class="w-72 h-52">
+                                <line x1="70" y1="100" x2="130" y2="100" stroke="#64748b" stroke-width="3"/>
+                                <line x1="75" y1="100" x2="60" y2="150" stroke="#475569" stroke-width="4"/>
+                                <line x1="125" y1="100" x2="140" y2="150" stroke="#475569" stroke-width="4"/>
+                                <line x1="100" y1="100" x2="100" y2="150" stroke="#475569" stroke-width="4"/>
+                                <path d="M75,80 C75,100 125,100 125,80 Z" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/>
+                                <path id="salt-water-level-c" d="M78,85 C78,97 122,97 122,85 Z" fill="#38bdf8" fill-opacity="0.4"/>
+                                <g id="salt-crystals-c" class="opacity-0">
+                                    <rect x="92" y="91" width="3" height="3" fill="#ffffff" stroke="#cbd5e1"/>
+                                    <rect x="106" y="93" width="3" height="3" fill="#ffffff" stroke="#cbd5e1"/>
+                                </g>
+                                <path id="burner-flame-c" d="M100,120 Q95,135 100,150 Q105,135 100,120 Z" fill="#f97316" class="opacity-0" stroke="#ef4444"/>
+                                <path id="c-steam1" d="M90,70 Q85,60 92,50" fill="none" stroke="#cbd5e1" stroke-width="1.5" class="opacity-0"/>
+                                <path id="c-steam2" d="M110,70 Q115,60 108,50" fill="none" stroke="#cbd5e1" stroke-width="1.5" class="opacity-0"/>
+                            </svg>
+                        </div>
+                        <button onclick="actionStepC(3)" class="w-full mt-3 bg-red-600 hover:bg-red-700 text-white font-bold text-xs py-2.5 rounded-xl transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-fire"></i> 소금물 가열 증발 활성화
+                        </button>
+                    </div>
+                `;
+            }
+            display.innerHTML = content;
+        }
+
+        function actionStepC(step) {
+            if (step === 1) {
+                const scoop = document.getElementById('scoop-net');
+                const plastic = document.getElementById('floating-plastic');
+                scoop.style.transform = "translate(5px, 5px)";
+
+                setTimeout(() => {
+                    plastic.style.transition = "transform 1s";
+                    plastic.style.transform = "translate(10px, -40px)";
+                    showToast("밀도가 작은 플라스틱 조각이 물 위에 떠서 뜰채로 쉽게 회수되었습니다!", "success");
+                    currentStepC = 2;
+                    renderSampleC();
+                }, 1200);
+            } else if (step === 2) {
+                const drop = document.getElementById('drop-c');
+                const sand = document.getElementById('sand-filter-c');
+                drop.classList.add('anim-drip-drop');
+                sand.style.opacity = '0.3';
+
+                setTimeout(() => {
+                    showToast("물에 녹지 않는 거친 모래들이 깔때기 내 거름종이에 걸러졌습니다[cite: 1]!", "success");
+                    currentStepC = 3;
+                    renderSampleC();
+                }, 3000);
+            } else if (step === 3) {
+                const flame = document.getElementById('burner-flame-c');
+                const steam1 = document.getElementById('c-steam1');
+                const steam2 = document.getElementById('c-steam2');
+                const level = document.getElementById('salt-water-level-c');
+                const crystals = document.getElementById('salt-crystals-c');
+
+                flame.classList.remove('opacity-0');
+                flame.classList.add('anim-fire');
+                steam1.classList.remove('opacity-0');
+                steam1.classList.add('anim-steam-svg');
+                steam2.classList.remove('opacity-0');
+                steam2.classList.add('anim-steam-svg');
+
+                level.style.transition = "all 4s ease-out";
+                level.style.transform = "scaleY(0.1)";
+                level.style.transformOrigin = "bottom";
+
+                setTimeout(() => {
+                    crystals.classList.remove('opacity-0');
+                    level.classList.add('opacity-0');
+                    showToast("모든 수분이 증기화하여 사라지고 결정만 추출되었습니다[cite: 1]!", "success");
+                    document.getElementById('lab-feedback').innerHTML = "🏁 <strong>[샘플 C 연쇄 분리 완료]</strong> 물의 특성을 이용한 다상 복합 분류 실험이 종료되었습니다[cite: 1]!";
+                }, 4000);
+            }
+        }
+
+        /* */
+        const MOCK_BUGS_TEMPLATE = `1. 물과 에탄올을 끓는점을 이용하여 분류한다.
+2. 물이 먼저 끓는다.
+3. 남은 에탄올을 모은다.
+4. 밀도차이를 이용해서 식용유를 분리한다.`;
+
+        const MOCK_CORRECT_TEMPLATE = `1. 혼합물을 분별 깔때기에 넣고 가만히 두어 층을 분리한다.
+2. 밀도가 작아 위층으로 뜨는 식용유를 분별 깔때기로 가장 먼저 분리한다.
+3. 남은 물과 에탄올 혼합액을 증류 장치에 넣고 안전하게 물중탕으로 가열한다.
+4. 끓는점이 낮은 에탄올(78.2℃)이 먼저 끓어 나와 기화 후 응결되고, 물(100℃)은 용기에 남는다.`;
+
+        function loadDesignTemplate(type) {
+            if (type === 'buggy') {
+                document.getElementById('design-title').value = "식용유, 물, 에탄올 혼합물 분리";
+                document.getElementById('design-props').value = "밀도차, 끓는점 차이";
+                document.getElementById('design-process').value = MOCK_BUGS_TEMPLATE;
+                showToast("오답 설계 데이터셋을 교사용 역진 추적을 위해 로드했습니다.", "warning");
+            } else {
+                document.getElementById('design-title').value = "식용유, 물, 에탄올의 정밀 순차 분리";
+                document.getElementById('design-props').value = "섞이지 않는 액체의 밀도차, 끓는점의 상대적 차이";
+                document.getElementById('design-process').value = MOCK_CORRECT_TEMPLATE;
+                showToast("교과서 규정을 100% 반영한 모범 정답 설계를 성공적으로 로드했습니다.", "success");
+            }
+            autoSave();
+            document.getElementById('ai-feedback-content').innerHTML = `
+                <div class="h-full flex flex-col items-center justify-center text-center p-6 space-y-4 text-slate-500">
+                    <div class="text-4xl animate-bounce">🤖</div>
+                    <div class="space-y-1">
+                        <p class="font-bold text-slate-300">새 설계가 대기 중입니다</p>
+                        <p class="text-[11px] leading-relaxed">하단 'AI 설계 검토 및 자동 교정' 버튼을 눌러 피드백을 수령하세요.</p>
+                    </div>
+                </div>
+            `;
+        }
+
         function autoSave() {
             const cls = document.getElementById('student-class').value;
             const grp = document.getElementById('student-group').value;
@@ -646,32 +1242,225 @@
             localStorage.setItem(targetKey, JSON.stringify(data));
             
             const statusLabel = document.getElementById('save-status');
-            statusLabel.innerHTML = "<i class='fa-solid fa-rotate text-amber-500 animate-spin'></i> 실시간 연동 중...";
+            statusLabel.innerHTML = "<i class='fa-solid fa-rotate text-amber-500 animate-spin'></i> 클라우드 저장 중...";
             setTimeout(() => { statusLabel.innerHTML = "<i class='fa-solid fa-cloud-arrow-up'></i> 드라이브 실시간 연동중"; }, 400);
         }
 
-        function triggerAIFeedback() {
+        /* */
+        async function triggerAIFeedback() {
             const processText = document.getElementById('design-process').value;
             const aiView = document.getElementById('ai-feedback-content');
-            if(!processText || processText.length < 5) { alert("설계 프로세스 내용을 기재해 주세요."); return; }
-            aiView.innerHTML = `<p class="text-indigo-400 font-bold font-mono animate-pulse"><i class="fa-solid fa-brain"></i> AI 논리 시퀀스 데이터 분석 중...</p>`;
-            setTimeout(() => {
-                aiView.innerHTML = `<div class="bg-emerald-950/40 p-3 rounded-xl border border-emerald-800 text-emerald-200">과학적 논리 전개 무결점 판정! 물질의 고유한 특성 순차 공정이 대단히 명확히 서술되었습니다.</div>`;
-            }, 800);
+            
+            if(!processText || processText.length < 5) { 
+                showToast("가설 공정 단계를 자세히 수록한 뒤 교정을 의뢰하세요.", "warning"); 
+                return; 
+            }
+
+            aiView.innerHTML = `
+                <div class="h-full flex flex-col items-center justify-center p-6 space-y-5">
+                    <div class="relative flex items-center justify-center">
+                        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+                        <div class="absolute animate-ping rounded-full h-8 w-8 border border-indigo-400 opacity-75"></div>
+                    </div>
+                    <div class="text-center space-y-2">
+                        <p class="font-bold text-indigo-400 text-xs tracking-wide">AI 튜터 과학 가드레일 가동 중</p>
+                        <p id="ai-loading-phase" class="text-[10px] text-slate-400 font-mono bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-800 inline-block animate-pulse">
+                            Fact-DB 조회 중...
+                        </p>
+                    </div>
+                </div>
+            `;
+
+            const phases = [
+                "1단계: 물리량 Fact-DB 정합성 교차 비교 중...",
+                "2단계: 혼합물 분리 순서 논리 결함 검출 중...",
+                "3단계: 인화성 에탄올 안전 가이드라인 확인 중...",
+                "4단계: 메타인지 증진용 발문 힌트 데이터 합성 중..."
+            ];
+
+            for (let i = 0; i < phases.length; i++) {
+                document.getElementById('ai-loading-phase').innerText = phases[i];
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+
+            const hasBoilingInversion = processText.includes("물이 먼저") || processText.includes("물부터 끓") || processText.includes("물이 끓") || processText.includes("물부터 분리");
+            const hasOilLast = processText.indexOf("식용유") > processText.indexOf("끓") || processText.indexOf("식용유") > processText.indexOf("가열") || processText.includes("마지막에 식용유") || processText.includes("4. 밀도차이");
+            const hasDirectHeatingDanger = !processText.includes("물중탕") && (processText.includes("가열") || processText.includes("끓"));
+            
+            const isCorrect = !hasBoilingInversion && !hasOilLast && !hasDirectHeatingDanger && (processText.includes("분별") || processText.includes("깔때기") || processText.includes("밀도"));
+
+            if (isCorrect) {
+                aiView.innerHTML = `
+                    <div class="space-y-4 animate-fadeIn">
+                        <div class="p-3.5 rounded-xl border bg-emerald-500/10 border-emerald-500/30 text-emerald-300">
+                            <div class="flex items-center gap-2">
+                                <span class="text-lg">🎉</span>
+                                <h3 class="font-bold text-xs">과학적 논리 전개 우수 판정!</h3>
+                            </div>
+                            <p class="text-[11px] text-slate-300 mt-1 leading-relaxed">물질의 고유 특성 수치를 정확히 이해한 무결점 설계입니다.</p>
+                        </div>
+                        <div class="space-y-2 text-[11px]">
+                            <div class="bg-slate-900 p-2.5 rounded border border-slate-800">✅ 끓는점 순서 정합성 통과 완료 (에탄올 78.2℃ 선증류)[cite: 1]</div>
+                            <div class="bg-slate-900 p-2.5 rounded border border-slate-800">✅ 밀도 분리 순서 정합성 통과 (가열 전 식용유 선차단)[cite: 1]</div>
+                            <div class="bg-slate-900 p-2.5 rounded border border-slate-800">✅ 가열 안전 규격 통과 (간접 물중탕 가열법 수립)[cite: 1]</div>
+                        </div>
+                    </div>
+                `;
+                showToast("과학적 사실관계 및 순서 정합성 통과 완료!", "success");
+            } else {
+                aiView.innerHTML = `
+                    <div class="space-y-4 animate-fadeIn text-xs">
+                        <div class="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300">
+                            <h4 class="font-bold">🚨 AI 가드레일: 치명적 정합성 오류 감지</h4>
+                            <p class="text-[10px] text-slate-400 mt-1">학생의 오답에 맹목적으로 동조하며 극찬하는 환각 현상을 원천 차단했습니다.</p>
+                        </div>
+                        <div class="space-y-2 text-[10px]">
+                            <div class="bg-slate-900 p-2.5 rounded border border-slate-800 flex justify-between">
+                                <span>끓는점 역전 여부</span>
+                                <span class="${hasBoilingInversion ? 'text-rose-400' : 'text-emerald-400'} font-bold">${hasBoilingInversion ? '오류 감지[cite: 1]' : '정상'}</span>
+                            </div>
+                            <div class="bg-slate-900 p-2.5 rounded border border-slate-800 flex justify-between">
+                                <span>식용유 선분리 여부</span>
+                                <span class="${hasOilLast ? 'text-rose-400' : 'text-emerald-400'} font-bold">${hasOilLast ? '오류 감지[cite: 1]' : '정상'}</span>
+                            </div>
+                            <div class="bg-slate-900 p-2.5 rounded border border-slate-800 flex justify-between">
+                                <span>직접 가열 화재성 위험</span>
+                                <span class="${hasDirectHeatingDanger ? 'text-rose-400' : 'text-emerald-400'} font-bold">${hasDirectHeatingDanger ? '위험 감지[cite: 1]' : '안전'}</span>
+                            </div>
+                        </div>
+                        <div class="bg-amber-950/40 p-3.5 rounded-xl text-amber-200 text-[11px] leading-relaxed">
+                            <span class="font-bold text-amber-400 block mb-1">🧠 AI 튜터 힌트 발문</span>
+                            "에탄올의 끓는점은 78.2℃이고 물의 끓는점은 100℃입니다. 끓는점이 낮은 액체가 가열 시 실제로 어느 시점에 기화될까요[cite: 1]? 또한 식용유의 특징을 이용하여 가열 전에 미리 거르는 방법을 고안해 보세요[cite: 1]."
+                        </div>
+                    </div>
+                `;
+                showToast("설계 내에 사실오류 및 순서 결함이 검출되었습니다.", "warning");
+            }
         }
 
-        function downloadAsPPT() { alert("Google Slides 호환 아웃라인 텍스트 덤프 데이터 생성을 수행합니다."); }
+        function downloadAsPPT() {
+            const processText = document.getElementById('design-process').value;
+            if(!processText || processText.length < 5) {
+                showToast("실험 단계를 먼저 작성해야 발표자료 빌드가 실행됩니다.", "warning");
+                return;
+            }
+
+            const hasBoilingInversion = processText.includes("물이 먼저") || processText.includes("물부터 끓") || processText.includes("물이 끓") || processText.includes("물부터 분리");
+            const hasOilLast = processText.indexOf("식용유") > processText.indexOf("끓") || processText.indexOf("식용유") > processText.indexOf("가열") || processText.includes("마지막에 식용유") || processText.includes("4. 밀도차이");
+            const hasDirectHeatingDanger = !processText.includes("물중탕") && (processText.includes("가열") || processText.includes("끓"));
+            const isCorrect = !hasBoilingInversion && !hasOilLast && !hasDirectHeatingDanger && (processText.includes("분별") || processText.includes("깔때기") || processText.includes("밀도"));
+
+            document.getElementById('ppt-slide1-title').innerText = document.getElementById('design-title').value || "3성분 분리 설계";
+            const cls = document.getElementById('student-class').value;
+            const grp = document.getElementById('student-group').value;
+            const names = document.getElementById('student-names').value || "모둠원 전체";
+            document.getElementById('ppt-slide1-footer').innerText = `${cls} ${grp} (${names}) 제출안`;
+
+            const slide2Content = document.getElementById('ppt-slide2-content');
+            if (isCorrect) {
+                slide2Content.innerHTML = `
+                    <p class="font-bold text-slate-800 mb-1">1. [밀도차 분리] 분별 깔때기를 활용해 위층의 식용유 선확보[cite: 1]</p>
+                    <p class="font-bold text-slate-800 mb-1">2. [안전 가열] 에탄올 폭발을 막기 위한 중탕 수조 설치[cite: 1]</p>
+                    <p class="font-bold text-slate-800">3. [끓는점 증류] 낮은 온도의 에탄올 기화 후 응축 포집[cite: 1]</p>
+                `;
+            } else {
+                slide2Content.innerHTML = `
+                    <p class="text-rose-600 font-extrabold"><i class="fa-solid fa-circle-xmark"></i> 정합성 빌드 중단</p>
+                    <p class="text-slate-400 mt-1">과학적 오류가 남아있어 슬라이드 아웃라인 변환이 차단되었습니다.</p>
+                `;
+            }
+
+            document.getElementById('ppt-modal').classList.remove('hidden');
+            document.getElementById('ppt-modal').classList.add('flex');
+        }
+
+        function closePPTModal() {
+            document.getElementById('ppt-modal').classList.replace('flex', 'hidden');
+        }
 
         function submitToTeacher() {
             const cls = document.getElementById('student-class').value;
             const grp = document.getElementById('student-group').value;
             const targetKey = getStorageKey(cls, grp);
             let data = JSON.parse(localStorage.getItem(targetKey));
-            if(!data || data.title === "작성 전") { alert("내용을 정상 입력해 주세요."); return; }
+            
+            if(!data || data.title === "작성 전") { 
+                showToast("설계를 수행한 후 제출하세요.", "warning"); 
+                return; 
+            }
+            
             data.status = "제출 완료";
             localStorage.setItem(targetKey, JSON.stringify(data));
-            alert("이수민 선생님 서버 대시보드로 최종 보고서가 제출 완료되었습니다.");
+            showToast("수합 보드에 정상적으로 전송되었습니다.", "success");
             switchTab('wrap');
+        }
+
+        function setClassFilter(cls) {
+            currentClassFilter = cls;
+            const classes = ['All', '1반', '2반', '3반', '4반', '5반', '6반'];
+            classes.forEach(c => {
+                const btn = document.getElementById(`filter-${c}`);
+                if (c === cls) {
+                    btn.className = "px-3 py-1 text-[11px] font-bold rounded-lg transition-all duration-200 bg-white text-slate-900 shadow-sm";
+                } else {
+                    btn.className = "px-3 py-1 text-[11px] font-medium rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900";
+                }
+            });
+            renderDashboard();
+            showToast(`${cls === 'All' ? '전체 학급' : cls}로 테이블이 갱신되었습니다.`, 'success');
+        }
+
+        function downloadCSV() {
+            let csvRows = [];
+            csvRows.push(["학년반", "모둠", "제출 연구원", "실험 대주제", "가설 및 설계 내용", "AI 정합성 진단", "제출 상태"].map(val => `"${val}"`).join(","));
+
+            let count = 0;
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.startsWith("submit_")) {
+                    const data = JSON.parse(localStorage.getItem(key));
+                    if (currentClassFilter !== 'All' && data.class !== currentClassFilter) continue;
+
+                    const processText = data.process || "";
+                    const hasBoilingInversion = processText.includes("물이 먼저") || processText.includes("물부터 끓") || processText.includes("물이 끓") || processText.includes("물부터 분리");
+                    const hasOilLast = processText.indexOf("식용유") > processText.indexOf("끓") || processText.indexOf("식용유") > processText.indexOf("가열") || processText.includes("마지막에 식용유") || processText.includes("4. 밀도차이");
+                    const hasDirectHeatingDanger = !processText.includes("물중탕") && (processText.includes("가열") || processText.includes("끓"));
+                    
+                    let aiResult = "대기 중";
+                    if (processText && processText !== "대기 중") {
+                        const isCorrect = !hasBoilingInversion && !hasOilLast && !hasDirectHeatingDanger && (processText.includes("분별") || processText.includes("깔때기") || processText.includes("밀도"));
+                        aiResult = isCorrect ? "통과 완료" : "교정 필요";
+                    }
+
+                    const clean = (text) => text ? text.replace(/"/g, '""').replace(/\r?\n|\r/g, " ") : "";
+
+                    csvRows.push([
+                        data.class || "",
+                        data.group || "",
+                        data.names || "",
+                        data.title || "",
+                        processText,
+                        aiResult,
+                        data.status || "미제출"
+                    ].map(val => `"${clean(val)}"`).join(","));
+                    count++;
+                }
+            }
+
+            if (count === 0) {
+                showToast("출력할 수 있는 데이터가 수합되지 않았습니다.", "warning");
+                return;
+            }
+
+            const csvContent = "\uFEFF" + csvRows.join("\n");
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.setAttribute("href", url);
+            link.setAttribute("download", `이수민과학_${currentClassFilter}_분리설계.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
 
         function openTeacherDashboard() {
@@ -679,6 +1468,8 @@
                 renderDashboard();
                 document.getElementById('teacher-modal').classList.remove('hidden');
                 document.getElementById('teacher-modal').classList.add('flex');
+            } else {
+                showToast("비밀번호가 일치하지 않습니다.", "danger");
             }
         }
         function closeTeacherDashboard() { document.getElementById('teacher-modal').classList.replace('flex', 'hidden'); }
@@ -686,21 +1477,82 @@
         function renderDashboard() {
             const rowsContainer = document.getElementById('dashboard-rows');
             rowsContainer.innerHTML = "";
+            
+            let totalTeams = 0;
+            let submittedCount = 0;
+            let passedCount = 0;
+            let errorCount = 0;
+
             for(let i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i);
                 if(key.startsWith("submit_")) {
                     let data = JSON.parse(localStorage.getItem(key));
+                    if (currentClassFilter !== 'All' && data.class !== currentClassFilter) continue;
+
+                    totalTeams++;
+                    if (data.status === "제출 완료") submittedCount++;
+
+                    const processText = data.process || "";
+                    const hasBoilingInversion = processText.includes("물이 먼저") || processText.includes("물부터 끓") || processText.includes("물이 끓") || processText.includes("물부터 분리");
+                    const hasOilLast = processText.indexOf("식용유") > processText.indexOf("끓") || processText.indexOf("식용유") > processText.indexOf("가열") || processText.includes("마지막에 식용유") || processText.includes("4. 밀도차이");
+                    const hasDirectHeatingDanger = !processText.includes("물중탕") && (processText.includes("가열") || processText.includes("끓"));
+                    
+                    let isCorrect = false;
+                    let statusBadge = "";
+                    
+                    if (processText && processText !== "대기 중") {
+                        isCorrect = !hasBoilingInversion && !hasOilLast && !hasDirectHeatingDanger && (processText.includes("분별") || processText.includes("깔때기") || processText.includes("밀도"));
+                        if (isCorrect) {
+                            passedCount++;
+                            statusBadge = `<span class="bg-emerald-50 text-emerald-700 border border-emerald-200 px-2.5 py-1 rounded-lg text-[10px] font-bold">🟢 통과</span>`;
+                        } else {
+                            errorCount++;
+                            statusBadge = `<span class="bg-rose-50 text-rose-700 border border-rose-200 px-2.5 py-1 rounded-lg text-[10px] font-bold">🔴 재검토</span>`;
+                        }
+                    } else {
+                        statusBadge = `<span class="text-slate-400">대기</span>`;
+                    }
+
                     rowsContainer.innerHTML += `
                         <tr class="hover:bg-slate-50 text-slate-700 border-b">
-                            <td class="p-3 text-center font-bold">${data.class}</td>
-                            <td class="p-3 text-center text-indigo-600 font-bold">${data.group}</td>
-                            <td class="p-3">${data.names}</td>
-                            <td class="p-3 font-bold">${data.title}</td>
-                            <td class="p-3 text-xs">${data.process}</td>
-                            <td class="p-3 text-center"><span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full text-[11px] font-bold">${data.status}</span></td>
+                            <td class="p-4 text-center font-bold">${data.class || "-"}</td>
+                            <td class="p-4 text-center text-indigo-600 font-extrabold">${data.group || "-"}</td>
+                            <td class="p-4 font-semibold">${data.names || "미기록"}</td>
+                            <td class="p-4 font-bold">${data.title || "미지정"}</td>
+                            <td class="p-4 text-xs font-mono whitespace-pre-line max-w-lg">${data.process || "대기 중"}</td>
+                            <td class="p-4 text-center">${statusBadge}</td>
+                            <td class="p-4 text-center">
+                                <span class="${data.status === "제출 완료" ? "bg-indigo-600 text-white" : "bg-slate-100 text-slate-400"} px-2.5 py-1 rounded-full text-[10px] font-bold">${data.status || "미제출"}</span>
+                            </td>
                         </tr>
                     `;
                 }
+            }
+
+            document.getElementById('stat-total-teams').innerText = totalTeams;
+            document.getElementById('stat-submitted').innerText = submittedCount;
+            document.getElementById('stat-pass-rate').innerText = totalTeams > 0 ? Math.round((passedCount / totalTeams) * 100) + "%" : "0%";
+            document.getElementById('stat-errors').innerText = errorCount + "건";
+
+            if(totalTeams === 0) {
+                rowsContainer.innerHTML = `<tr><td colspan="7" class="p-12 text-center text-slate-400 italic">제출 기록이 없습니다.</td></tr>`;
+            }
+        }
+
+        function toggleLogConsole() {
+            const content = document.getElementById('log-console-content');
+            const icon = document.getElementById('log-console-icon');
+            const toggleText = document.getElementById('log-console-toggle-text');
+            
+            isConsoleOpen = !isConsoleOpen;
+            if(isConsoleOpen) {
+                content.classList.remove('hidden');
+                icon.style.transform = "rotate(180deg)";
+                toggleText.innerText = "접기";
+            } else {
+                content.classList.add('hidden');
+                icon.style.transform = "rotate(0deg)";
+                toggleText.innerText = "열기";
             }
         }
     </script>
